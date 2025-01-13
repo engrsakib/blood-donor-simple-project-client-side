@@ -4,22 +4,30 @@ const Banner = () => {
     return (
       <>
         <div
-          className="hero min-h-screen"
+          className="hero min-h-screen rounded-md"
           style={{
             backgroundImage:
-              "url(https://img.daisyui.com/images/stock/photo-1507358522600-9f71e620c44e.webp)",
+              "url(https://cdn.ittefaqbd.com/contents/cache/images/640x358x1/uploads/media/2024/06/14/eb5663459d5f5e1ad9c4fa7e0e172d2a-666c4ac8bf1e7.jpg?jadewits_media_id=173188)",
           }}
         >
           <div className="hero-overlay bg-opacity-60"></div>
           <div className="hero-content text-neutral-content text-center">
             <div className="max-w-md">
-              <h1 className="mb-5 text-5xl font-bold">Hello there</h1>
+              <h1 className="mb-5 text-5xl font-bold">
+                Donate Blood, Save Lives
+              </h1>
               <p className="mb-5">
-                Provident cupiditate voluptatem et in. Quaerat fugiat ut
-                assumenda excepturi exercitationem quasi. In deleniti eaque aut
-                repudiandae et a id nisi.
+                Blood donation is a noble act that saves countless lives. By
+                donating blood, you can help patients suffering from accidents,
+                surgeries, or life-threatening illnesses. A single donation can
+                save up to three lives. It is safe, quick, and a simple way to
+                make a significant difference in your community. Become a hero
+                today—donate blood and give the gift of life.
               </p>
-              <button className="btn btn-primary">Get Started</button>
+              <div className='space-x-3'>
+                <button className="btn btn-primary">Join as a donor</button>
+                <button className="btn btn-secondary">Search Donors</button>
+              </div>
             </div>
           </div>
         </div>
