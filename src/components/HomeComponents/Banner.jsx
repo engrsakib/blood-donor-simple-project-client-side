@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Banner = () => {
     return (
@@ -24,9 +25,11 @@ const Banner = () => {
                 make a significant difference in your community. Become a hero
                 today—donate blood and give the gift of life.
               </p>
-              <div className='space-x-3'>
-                <button className="btn btn-primary">Join as a donor</button>
-                <button className="btn btn-secondary">Search Donors</button>
+              <div className="space-x-3">
+                <Link to={`/auth/register`} className="btn btn-primary">
+                  Join as a donor
+                </Link>
+                <Link to={"/search"} className="btn btn-secondary">Search Donors</Link>
               </div>
             </div>
           </div>
