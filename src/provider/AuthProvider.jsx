@@ -52,7 +52,7 @@ const AuthProvider = ({ children }) => {
         const user = { email: Currentuser.email };
 
         axios
-          .post("https://lostserver.vercel.app/jwt", user, {
+          .post("http://localhost:5000/jwt", user, {
             withCredentials: true,
           })
           .then((data) => {
@@ -60,13 +60,13 @@ const AuthProvider = ({ children }) => {
           });
       }
       if (Currentuser?.email) {
-        fetch(`https://lostserver.vercel.app/users/${Currentuser?.email}`)
+        fetch(`http://localhost:5000/users/${Currentuser?.email}`)
           .then((res) => res.json())
           .then((data) => setUser(data[0]));
       } else {
         axios
           .post(
-            "https://lostserver.vercel.app/logout",
+            "http://localhost:5000/logout",
             {},
             {
               withCredentials: true,

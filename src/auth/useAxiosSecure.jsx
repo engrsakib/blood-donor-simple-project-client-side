@@ -5,7 +5,7 @@ import { auth } from "../Firebase/firebase.congig";
 import Swal from "sweetalert2";
 
 const axiosInstance = axios.create({
-  baseURL: "https://lostserver.vercel.app",
+  baseURL: "http://localhost:5000",
   withCredentials: true,
 });
 
