@@ -55,9 +55,33 @@ const Header = () => {
               : "bg-transparent hover:bg-red-400"
           } ${dark ? "text-gray-50" : "text-gray-800"}`
         }
-        to={`/finds-losts/all-finds`}
+        to={`/donations`}
       >
-        Lost & Found
+        Donation requests
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          `px-4 py-2 rounded ${
+            isActive
+              ? "bg-green-500 text-white"
+              : "bg-transparent hover:bg-red-400"
+          } ${dark ? "text-gray-50" : "text-gray-800"}`
+        }
+        to={`/blogs`}
+      >
+        Blogs
+      </NavLink>
+      <NavLink
+        className={({ isActive }) =>
+          `px-4 py-2 rounded ${
+            isActive
+              ? "bg-green-500 text-white"
+              : "bg-transparent hover:bg-red-400"
+          } ${dark ? "text-gray-50" : "text-gray-800"}`
+        }
+        to={`/fund`}
+      >
+        Fund me
       </NavLink>
     </>
   );
@@ -134,9 +158,9 @@ const Header = () => {
           </div>
           <Link
             to={`/`}
-            className={`text-2xl ${dark ? "text-gray-50" : "text-gray-800"}`}
+            className={`text-2xl ${dark ? "text-red-50" : "text-red-800"}`}
           >
-            Swift Launch
+            BloodBridge
           </Link>
         </div>
         <div className="navbar-center hidden lg:flex">

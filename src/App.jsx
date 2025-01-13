@@ -10,7 +10,7 @@ function App() {
 
   return (
     <>
-      <header className="bg-transparent backdrop-blur-lg w-full mx-auto z-50 sticky top-0">
+      <header className="bg-transparent backdrop-blur-lg w-full mx-auto z-50 sticky top-2">
         <Header></Header>
       </header>
 
