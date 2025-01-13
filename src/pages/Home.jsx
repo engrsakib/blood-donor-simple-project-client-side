@@ -3,6 +3,7 @@ import { Helmet } from 'react-helmet';
 import { AuthContext } from '../provider/AuthProvider';
 import Banner from '../components/HomeComponents/Banner';
 import AboutUs from '../components/HomeComponents/AboutUs';
+import ContactForm from '../components/HomeComponents/ContactForm';
 
 const Home = () => {
   const{user} = useContext(AuthContext)
@@ -17,7 +18,10 @@ const Home = () => {
           <AboutUs></AboutUs>
         </section>
 
-
+        {/* contactus */}
+        <section>
+          <ContactForm></ContactForm>
+        </section>
 
         <Helmet>
           <meta charSet="utf-8" />
