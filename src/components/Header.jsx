@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 const Header = () => {
   const { setdark, dark, user } = useContext(AuthContext);
   const [showUserMenu, setShowUserMenu] = useState(false); // State to handle user menu visibility
-
+  // console.log(user)
   const singOut = () => {
     Swal.fire({
       title: "Do you want to Sign Out?",
@@ -154,7 +154,11 @@ const Header = () => {
             onClick={() => setShowUserMenu(!showUserMenu)}
             className="btn btn-ghost btn-circle"
           >
-            <FaUserCircle className="text-2xl" />
+            {user ? (
+              <img className="rounded-full shadow-lg" src={user.photo} alt="" />
+            ) : (
+              <FaUserCircle className="text-2xl" />
+            )}
           </button>
           {showUserMenu && (
             <div
