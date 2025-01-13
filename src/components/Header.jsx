@@ -42,7 +42,7 @@ const Header = () => {
         (link, index) => (
           <NavLink
             key={index}
-            to={`/${link.toLowerCase().replace(" ", "")}`}
+            to={`${link == "Home" ? "/": `/${link.toLowerCase().replace(" ", "")}`}`}
             className={({ isActive }) =>
               `px-4 py-2 rounded ${
                 isActive
@@ -155,7 +155,14 @@ const Header = () => {
             className="btn btn-ghost btn-circle"
           >
             {user ? (
-              <img className="rounded-full shadow-lg" src={user.photo} alt="" />
+              <div className="tooltip" data-tip={user.name}>
+                <img
+                  className="rounded-full shadow-lg"
+                  src={user.photoUrl}
+                  alt=""
+                  data-tip={user.name}
+                />
+              </div>
             ) : (
               <FaUserCircle className="text-2xl" />
             )}
@@ -184,10 +191,10 @@ const Header = () => {
               ) : (
                 <div className="p-2">
                   <Link
-                    to="/auth/users/profile"
+                    to="/dashboard"
                     className="block px-4 py-2 hover:bg-gray-200 rounded"
                   >
-                    {user.name}
+                    dashboard
                   </Link>
                   <button
                     onClick={singOut}

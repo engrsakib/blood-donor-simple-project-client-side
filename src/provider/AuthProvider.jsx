@@ -42,12 +42,13 @@ const AuthProvider = ({ children }) => {
 
   // observerd
   useEffect(() => {
+    setLoadding(true);
     const subscribe = onAuthStateChanged(auth, (Currentuser) => {
       setUser(Currentuser);
       setTimeout(() => {
         setLoadding(false);
-      }, 1000);
-
+      }, 2000);
+      // console.log(Currentuser.email);
       if (Currentuser?.email) {
         const user = { email: Currentuser.email };
 
@@ -63,6 +64,7 @@ const AuthProvider = ({ children }) => {
         fetch(`http://localhost:5000/users/${Currentuser?.email}`)
           .then((res) => res.json())
           .then((data) => setUser(data[0]));
+        setLoadding(false);
       } else {
         axios
           .post(
@@ -86,7 +88,7 @@ const AuthProvider = ({ children }) => {
   if (loadding) {
     return <Loading></Loading>;
   }
-
+  // console.log(user);
   // singin popup
 
   //Register by email and password
