@@ -11,6 +11,7 @@ import Dashboard from "../components/Dashboard/Dashboard";
 import User from "../components/Dashboard/user/User";
 import DashboardHome from "../components/Dashboard/DashboardHome";
 import UserEdit from "../components/Dashboard/user/UserEdit";
+import AllUsers from "../components/Dashboard/user/AllUsers/AllUsers";
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,14 @@ const router = createBrowserRouter([
         element: (
           <Privete>
             <UserEdit></UserEdit>
+          </Privete>
+        ),
+      },
+      {
+        path: "/dashboard/all-users",
+        element: (
+          <Privete>
+            <AllUsers></AllUsers>
           </Privete>
         ),
       },
