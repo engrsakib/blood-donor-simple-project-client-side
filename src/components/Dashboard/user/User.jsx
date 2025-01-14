@@ -6,6 +6,7 @@ import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Loading";
+import { FaPen } from "react-icons/fa";
 const User = () => {
   const { user, dark } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -30,7 +31,6 @@ const User = () => {
     if(isPending)(
         <Loading></Loading>
     )
-    
     refetch();
     
 
@@ -67,15 +67,15 @@ const User = () => {
           <div className="flex flex-col items-center">
             <div className="avatar">
               <div className="w-24 h-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={user.photoUrl} alt="User Profile" />
+                <img src={users?.photoUrl} alt="User Profile" />
               </div>
             </div>
-            <h2 className="mt-4 text-lg font-bold">{user.name}</h2>
-            <p className="text-sm capitalize badge">{user.role}</p>
+            <h2 className="mt-4 text-lg font-bold">{user?.name}</h2>
+            <p className="text-sm capitalize badge">{user?.role}</p>
             <p className="text-sm flex gap-x-1 items-center justify-center">
-              <GrStatusWarning /> {user.status}
+              <GrStatusWarning /> {users.status}
             </p>
-            <p className="text-sm">{user.email}</p>
+            <p className="text-sm">{user?.email}</p>
           </div>
         </div>
 
@@ -87,39 +87,30 @@ const User = () => {
         >
           <div className="flex justify-between items-center">
             <h3 className="text-xl font-bold">My Profile</h3>
-            <button onClick={handleEdit} className="btn btn-circle btn-outline btn-sm">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                className="w-4 h-4 stroke-current"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15.232 5.232l3.536 3.536M9 11l-4.5 4.5a2.121 2.121 0 102.121 2.121L11 15m4-4l4.5-4.5a2.121 2.121 0 00-2.121-2.121L9 11"
-                ></path>
-              </svg>
+            <button
+              onClick={handleEdit}
+              className="btn btn-circle btn-outline btn-sm"
+            >
+              <FaPen />
             </button>
           </div>
           <div className="divider"></div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-gray-500">Blood Grupe</p>
-              <p className="font-medium">{user.bloodGroup}</p>
+              <p className="font-medium">{users?.bloodGroup}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">District</p>
-              <p className="font-medium">{user.district}</p>
+              <p className="font-medium">{users?.district}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500 capitalize">upazila</p>
-              <p className="font-medium">{user.upazila}</p>
+              <p className="font-medium">{users?.upazila}</p>
             </div>
             <div>
               <p className="text-sm text-gray-500">Last Donations</p>
-              <p className="font-medium">{user?.last || "N/A"}</p>
+              <p className="font-medium">{users?.last || "N/A"}</p>
             </div>
           </div>
           <div className="mt-6">
