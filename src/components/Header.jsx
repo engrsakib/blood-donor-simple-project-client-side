@@ -158,7 +158,7 @@ const Header = () => {
               <div className="tooltip" data-tip={user.name}>
                 <img
                   className="rounded-full shadow-lg"
-                  src={user.photoUrl}
+                  src={user.photoUrl || user.photoURL}
                   alt=""
                   data-tip={user.name}
                 />

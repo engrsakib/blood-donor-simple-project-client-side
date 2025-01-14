@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { AuthContext } from '../provider/AuthProvider';
 import Banner from '../components/HomeComponents/Banner';
@@ -6,7 +6,9 @@ import AboutUs from '../components/HomeComponents/AboutUs';
 import ContactForm from '../components/HomeComponents/ContactForm';
 
 const Home = () => {
-  const{user} = useContext(AuthContext)
+  const{user, loadding} = useContext(AuthContext)
+  
+
     return (
       <>
         {/* banner section */}

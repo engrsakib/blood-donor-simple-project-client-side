@@ -9,7 +9,7 @@ const Privete = ({ children }) => {
     return;
   }
 
-  if (user && user?.email) {
+  if (user) {
     // console.log("privete")
     return children;
   }

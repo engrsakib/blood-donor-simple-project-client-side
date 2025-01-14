@@ -39,37 +39,28 @@ const AuthProvider = ({ children }) => {
   // console.log(user?.email);
 
   const provider = new GoogleAuthProvider();
-
+ 
   // observerd
   useEffect(() => {
     setLoadding(true);
     const subscribe = onAuthStateChanged(auth, (Currentuser) => {
+     setLoadding(true);
       setUser(Currentuser);
+      console.log(Currentuser)
       setTimeout(() => {
         setLoadding(false);
-      }, 3000);
+      }, 2000);
       // console.log(Currentuser.email);
-      if (Currentuser?.email) {
-        const user = {
-          email: Currentuser.email,
-          role: Currentuser.role,
-          status: Currentuser.status,
-        };
 
-        axios
-          .post("http://localhost:5000/jwt", user, {
-            withCredentials: true,
-          })
-          .then((data) => {
-            console.log(data.data);
-          });
-      }
       if (Currentuser?.email) {
         fetch(`http://localhost:5000/users/${Currentuser?.email}`)
           .then((res) => res.json())
           .then((data) => setUser(data));
 
-        setLoadding(false);
+        // setLoadding(false);
+        setTimeout(() => {
+          setLoadding(false);
+        }, 2000);
       } else {
         axios
           .post(
@@ -80,6 +71,23 @@ const AuthProvider = ({ children }) => {
             }
           )
           .then((res) => console.log(res.data));
+      }
+
+
+
+
+      if (Currentuser?.email) {
+        const userToken = {
+          email: Currentuser.email,
+        };
+
+        axios
+          .post("http://localhost:5000/jwt", userToken, {
+            withCredentials: true,
+          })
+          .then((data) => {
+            console.log(data.data);
+          });
       }
     });
 
