@@ -8,6 +8,8 @@ import Public from "./Public";
 import Profile from "../pages/Profile";
 import Privete from "./Privete";
 import Dashboard from "../components/Dashboard/Dashboard";
+import User from "../components/Dashboard/user/User";
+import DashboardHome from "../components/Dashboard/DashboardHome";
 
 const router = createBrowserRouter([
   {
@@ -50,7 +52,15 @@ const router = createBrowserRouter([
         path: "/dashboard",
         element: (
           <Privete>
-            
+            <DashboardHome></DashboardHome>
+          </Privete>
+        ),
+      },
+      {
+        path: "/dashboard/profile",
+        element: (
+          <Privete>
+            <User></User>
           </Privete>
         ),
       },
