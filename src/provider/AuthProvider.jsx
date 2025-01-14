@@ -68,6 +68,7 @@ const AuthProvider = ({ children }) => {
         fetch(`http://localhost:5000/users/${Currentuser?.email}`)
           .then((res) => res.json())
           .then((data) => setUser(data[0]));
+
         setLoadding(false);
       } else {
         axios

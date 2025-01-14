@@ -2,12 +2,28 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 // Adjust the import path
 import { GrStatusWarning } from "react-icons/gr";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const User = () => {
   const { user, dark } = useContext(AuthContext);
-
+    const navigate = useNavigate();
   // Fixed user data
+  const handleEdit = () =>{
+    Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to edit this?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, edit it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate("/dashboard/profile/edit");
+      }
+    });
+  }
   
-  console.log(user)
   return (
     <div
       className={`p-4 sm:p-6 lg:p-8 ${
@@ -44,7 +60,7 @@ const User = () => {
         >
           <div className="flex justify-between items-center">
             <h3 className="text-xl font-bold">My Profile</h3>
-            <button className="btn btn-circle btn-outline btn-sm">
+            <button onClick={handleEdit} className="btn btn-circle btn-outline btn-sm">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

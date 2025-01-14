@@ -10,6 +10,7 @@ import Privete from "./Privete";
 import Dashboard from "../components/Dashboard/Dashboard";
 import User from "../components/Dashboard/user/User";
 import DashboardHome from "../components/Dashboard/DashboardHome";
+import UserEdit from "../components/Dashboard/user/UserEdit";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,14 @@ const router = createBrowserRouter([
         element: (
           <Privete>
             <User></User>
+          </Privete>
+        ),
+      },
+      {
+        path: "/dashboard/profile/edit",
+        element: (
+          <Privete>
+            <UserEdit></UserEdit>
           </Privete>
         ),
       },
