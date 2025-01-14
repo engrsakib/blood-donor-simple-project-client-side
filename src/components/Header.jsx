@@ -58,35 +58,35 @@ const Header = () => {
     </>
   );
 
-  const menuLinks = (
-    <>
-      {[
-        { name: "Add Lost & Found", path: "/donation/add-campagion" },
-        { name: "Manage My Items", path: "/finds-losts/my-Iteam" },
-        { name: "All Recovered Items", path: "/donation/my-donation" },
-      ].map((menu, index) => (
-        <NavLink
-          key={index}
-          to={menu.path}
-          className={({ isActive }) =>
-            `px-4 py-2 rounded ${
-              isActive
-                ? "bg-green-500 text-white"
-                : "bg-transparent hover:bg-red-400"
-            } ${dark ? "text-gray-50" : "text-gray-800"}`
-          }
-        >
-          {menu.name}
-        </NavLink>
-      ))}
-      <button
-        onClick={singOut}
-        className="px-4 py-2 rounded bg-red-500 text-white"
-      >
-        Logout
-      </button>
-    </>
-  );
+  // const menuLinks = (
+  //   <>
+  //     {[
+  //       { name: "Add Lost & Found", path: "/donation/add-campagion" },
+  //       { name: "Manage My Items", path: "/finds-losts/my-Iteam" },
+  //       { name: "All Recovered Items", path: "/donation/my-donation" },
+  //     ].map((menu, index) => (
+  //       <NavLink
+  //         key={index}
+  //         to={menu.path}
+  //         className={({ isActive }) =>
+  //           `px-4 py-2 rounded ${
+  //             isActive
+  //               ? "bg-green-500 text-white"
+  //               : "bg-transparent hover:bg-red-400"
+  //           } ${dark ? "text-gray-50" : "text-gray-800"}`
+  //         }
+  //       >
+  //         {menu.name}
+  //       </NavLink>
+  //     ))}
+  //     <button
+  //       onClick={singOut}
+  //       className="px-4 py-2 rounded bg-red-500 text-white"
+  //     >
+  //       Logout
+  //     </button>
+  //   </>
+  // );
 
   return (
     <div

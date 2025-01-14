@@ -35,14 +35,22 @@ const router = createBrowserRouter([
           </Public>
         ),
       },
-
-      
-      // dashboard work
+    ],
+  },
+  // dashboard work
+  {
+    path: "/dashboard",
+    element: (
+      <Privete>
+        <Dashboard></Dashboard>
+      </Privete>
+    ),
+    children: [
       {
         path: "/dashboard",
         element: (
           <Privete>
-            <Dashboard></Dashboard>
+            
           </Privete>
         ),
       },
