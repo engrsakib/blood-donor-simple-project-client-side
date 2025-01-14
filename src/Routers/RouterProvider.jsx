@@ -7,6 +7,7 @@ import Fourzero from "../components/Fourzero";
 import Public from "./Public";
 import Profile from "../pages/Profile";
 import Privete from "./Privete";
+import Dashboard from "../components/Dashboard/Dashboard";
 
 const router = createBrowserRouter([
   {
@@ -34,12 +35,14 @@ const router = createBrowserRouter([
           </Public>
         ),
       },
+
       
+      // dashboard work
       {
-        path: "/auth/users/profile",
+        path: "/dashboard",
         element: (
           <Privete>
-            <Profile></Profile>
+            <Dashboard></Dashboard>
           </Privete>
         ),
       },

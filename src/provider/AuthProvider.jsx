@@ -50,7 +50,11 @@ const AuthProvider = ({ children }) => {
       }, 2000);
       // console.log(Currentuser.email);
       if (Currentuser?.email) {
-        const user = { email: Currentuser.email };
+        const user = {
+          email: Currentuser.email,
+          role: Currentuser.role,
+          status: Currentuser.status,
+        };
 
         axios
           .post("http://localhost:5000/jwt", user, {
