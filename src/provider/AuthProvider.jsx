@@ -47,7 +47,7 @@ const AuthProvider = ({ children }) => {
       setUser(Currentuser);
       setTimeout(() => {
         setLoadding(false);
-      }, 2000);
+      }, 3000);
       // console.log(Currentuser.email);
       if (Currentuser?.email) {
         const user = {
