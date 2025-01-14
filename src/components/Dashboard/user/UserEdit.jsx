@@ -287,9 +287,10 @@ const districtData = {
 const bloodGroups = ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"];
 
 const UserEdit = () => {
-  const { user, dark } = useContext(AuthContext);
+  const { user, dark, setLoadding } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  
   // Form state
   const [formData, setFormData] = useState({
     name: user.name,

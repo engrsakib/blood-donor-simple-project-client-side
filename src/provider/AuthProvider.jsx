@@ -67,7 +67,7 @@ const AuthProvider = ({ children }) => {
       if (Currentuser?.email) {
         fetch(`http://localhost:5000/users/${Currentuser?.email}`)
           .then((res) => res.json())
-          .then((data) => setUser(data[0]));
+          .then((data) => setUser(data));
 
         setLoadding(false);
       } else {

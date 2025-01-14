@@ -1,12 +1,39 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 // Adjust the import path
 import { GrStatusWarning } from "react-icons/gr";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import Loading from "../../Loading";
 const User = () => {
   const { user, dark } = useContext(AuthContext);
     const navigate = useNavigate();
+   
+    const {
+      isPending,
+      data: users = [],
+      refetch,
+    } = useQuery({
+      queryKey: ["users"],
+      queryFn: async () => {
+        if (!user?.email) {
+          return []; 
+        }
+        const response = await fetch(
+          `http://localhost:5000/users/${user.email}`
+        );
+        const data = await response.json();
+        return data;
+      },
+    });
+    if(isPending)(
+        <Loading></Loading>
+    )
+    
+    refetch();
+    
+
   // Fixed user data
   const handleEdit = () =>{
     Swal.fire({
