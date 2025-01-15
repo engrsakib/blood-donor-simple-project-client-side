@@ -13,6 +13,8 @@ import DashboardHome from "../components/Dashboard/DashboardHome";
 import UserEdit from "../components/Dashboard/user/UserEdit";
 import AllUsers from "../components/Dashboard/user/AllUsers/AllUsers";
 import Admin from "./Admin";
+import CreateDonations from "../components/Dashboard/Donor/CreateDonations";
+import MyDonations from "../components/Dashboard/Donor/MyDonations";
 
 const router = createBrowserRouter([
   {
@@ -72,6 +74,22 @@ const router = createBrowserRouter([
         element: (
           <Privete>
             <UserEdit></UserEdit>
+          </Privete>
+        ),
+      },
+      {
+        path: "/dashboard/create-donation-request",
+        element: (
+          <Privete>
+            <CreateDonations></CreateDonations>
+          </Privete>
+        ),
+      },
+      {
+        path: "/dashboard/my-donation-requests",
+        element: (
+          <Privete>
+            <MyDonations></MyDonations>
           </Privete>
         ),
       },

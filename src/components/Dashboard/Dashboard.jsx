@@ -83,12 +83,21 @@ const Dashboard = () => {
       </NavLink>
 
       <NavLink
-        to="/dashboard/content-management"
+        to="/dashboard/my-donation-requests"
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${isActive ? "btn-active" : ""}`
         }
       >
         My Donation Requests Page
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/create-donation-request"
+        className={({ isActive }) =>
+          `btn btn-outline btn-accent btn-wide ${isActive ? "btn-active" : ""}`
+        }
+      >
+        Create Donation Request
       </NavLink>
     </>
   );

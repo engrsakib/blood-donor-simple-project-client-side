@@ -3,11 +3,13 @@ import React, { useContext } from "react";
 import { FaUsers, FaHandHoldingHeart, FaTint } from "react-icons/fa";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useGetusers from "../user/AllUsers/useGetusers";
+import useGetallDonations from "../Donations/useGetallDonations";
 
 const AdminStatistics = () => {
   const { user, dark } = useContext(AuthContext);
   const { users, refetch, isPending } = useGetusers();
-
+  const { donations } = useGetallDonations(); 
+  
   // Fixed data
   const stats = [
     {
@@ -22,7 +24,7 @@ const AdminStatistics = () => {
     },
     {
       title: "Blood Requests",
-      count: "1,342",
+      count: donations.length,
       icon: <FaTint className="text-4xl text-red-500" />,
     },
   ];
