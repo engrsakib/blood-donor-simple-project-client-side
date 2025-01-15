@@ -36,7 +36,9 @@ const Dashboard = () => {
       <NavLink
         to="/dashboard/all-users"
         className={({ isActive }) =>
-          `btn btn-outline btn-accent btn-wide ${isActive ? "btn-active" : ""}`
+          `btn btn-outline btn-accent btn-wide ${
+            isActive ? "btn-active" : ""
+          } ${users.role == "donor" && "hidden"}`
         }
       >
         All users
@@ -44,7 +46,9 @@ const Dashboard = () => {
       <NavLink
         to=" /dashboard/all-blood-donation-request"
         className={({ isActive }) =>
-          `btn btn-outline btn-accent btn-wide ${isActive ? "btn-active" : ""}`
+          `btn btn-outline btn-accent btn-wide ${
+            isActive ? "btn-active" : ""
+          } ${users.role == "donor" && "hidden"}`
         }
       >
         All Blood Donation Request
@@ -52,10 +56,39 @@ const Dashboard = () => {
       <NavLink
         to="/dashboard/content-management"
         className={({ isActive }) =>
-          `btn btn-outline btn-accent btn-wide ${isActive ? "btn-active" : ""}`
+          `btn btn-outline btn-accent btn-wide ${
+            isActive ? "btn-active" : ""
+          } ${users.role == "donor" && "hidden"}`
         }
       >
         Content Management
+      </NavLink>
+
+      
+    </>
+  );
+
+  const donorMenu = (
+    <>
+      <NavLink
+        to="/dashboard"
+        end
+        className={({ isActive }) =>
+          `btn btn-outline btn-accent btn-wide ${
+            isActive ? "btn-active" : ""
+          } ${(users.role == "admin" || user.role == "volunteer") && "hidden"}`
+        }
+      >
+        Home
+      </NavLink>
+
+      <NavLink
+        to="/dashboard/content-management"
+        className={({ isActive }) =>
+          `btn btn-outline btn-accent btn-wide ${isActive ? "btn-active" : ""}`
+        }
+      >
+        My Donation Requests Page
       </NavLink>
     </>
   );
@@ -114,11 +147,18 @@ const Dashboard = () => {
             {/* user icons and profile end */}
 
             {/* admin Dashboard start*/}
-            {users.role === "admin" && (
+            {(users.role == "admin" || users.role == "volunteer") && (
               <section className="mt-2">
                 {/* icons */}
                 <div className="flex justify-start items-center gap-3 text-white text-xl">
-                  <RiAdminFill /> <h4>admin</h4>
+                  <RiAdminFill />{" "}
+                  <h4 className="capitalize">
+                    {users.role === "admin"
+                      ? "admin"
+                      : users.role === "volunteer"
+                      ? "volunteer"
+                      : "donor"}
+                  </h4>
                 </div>
                 {/* menue */}
                 <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
@@ -128,6 +168,21 @@ const Dashboard = () => {
               </section>
             )}
             {/* admin Dashboard end*/}
+
+            <section className="mt-2">
+              {/* icons */}
+              <div className="flex justify-start items-center gap-3 text-white text-xl">
+                <RiAdminFill />{" "}
+                <h4 className="capitalize">
+                  donor
+                </h4>
+              </div>
+              {/* menue */}
+              <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
+                {donorMenu}
+              </menu>
+              {/* menue */}
+            </section>
           </ul>
         </div>
         <Helmet>

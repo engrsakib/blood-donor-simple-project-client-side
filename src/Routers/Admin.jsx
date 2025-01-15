@@ -20,7 +20,11 @@ const Admin = ({ children }) => {
     return;
   }
 
-  if (users && users?.email && users?.role == 'admin') {
+  if (
+    users &&
+    users?.email &&
+    (users?.role == "admin" || users?.role == "volunteer")
+  ) {
     // console.log("privete")
     return children;
   }
