@@ -6,11 +6,22 @@ import { FaMoon, FaUserCircle } from "react-icons/fa";
 import { auth } from "../Firebase/firebase.congig";
 import { signOut } from "firebase/auth";
 import Swal from "sweetalert2";
+import useGetAllUsers from "./Dashboard/user/AllUsers/useGetAllUsers";
+import Loading from "./Loading";
 
 const Header = () => {
   const { setdark, dark, user } = useContext(AuthContext);
   const [showUserMenu, setShowUserMenu] = useState(false); // State to handle user menu visibility
   // console.log(user)
+
+
+   const { users, refetch, isPending } = useGetAllUsers(user);
+
+   if(isPending){
+    <Loading></Loading>
+   }
+   refetch();
+
   const singOut = () => {
     Swal.fire({
       title: "Do you want to Sign Out?",
@@ -155,10 +166,10 @@ const Header = () => {
             className="btn btn-ghost btn-circle"
           >
             {user ? (
-              <div className="tooltip" data-tip={user.name}>
+              <div className="tooltip" data-tip={users.name}>
                 <img
                   className="rounded-full shadow-lg"
-                  src={user.photoUrl || user.photoURL}
+                  src={users.photoUrl || user.photoURL}
                   alt=""
                   data-tip={user.name}
                 />

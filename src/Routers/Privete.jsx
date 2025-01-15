@@ -8,7 +8,7 @@ const Privete = ({ children }) => {
   if (Loadding) {
     return;
   }
-
+  console.log(user)
   if (user) {
     // console.log("privete")
     return children;

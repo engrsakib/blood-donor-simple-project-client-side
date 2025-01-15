@@ -7,32 +7,21 @@ import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../Loading";
 import { FaPen } from "react-icons/fa";
+import useGetAllUsers from "./AllUsers/useGetAllUsers";
+import axios from "axios";
 const User = () => {
-  const { user, dark } = useContext(AuthContext);
+  const { user, dark, setUser } = useContext(AuthContext);
     const navigate = useNavigate();
    
-    const {
-      isPending,
-      data: users = [],
-      refetch,
-    } = useQuery({
-      queryKey: ["users"],
-      queryFn: async () => {
-        if (!user?.email) {
-          return []; 
-        }
-        const response = await fetch(
-          `http://localhost:5000/users/${user.email}`
-        );
-        const data = await response.json();
-        return data;
-      },
-    });
+    
+    const { users, refetch, isPending } = useGetAllUsers(user);
+    console.log(users)
     if(isPending)(
         <Loading></Loading>
     )
     refetch();
     
+    console.log(user)
 
   // Fixed user data
   const handleEdit = () =>{
@@ -70,10 +59,10 @@ const User = () => {
                 <img src={users?.photoUrl} alt="User Profile" />
               </div>
             </div>
-            <h2 className="mt-4 text-lg font-bold">{user?.name}</h2>
-            <p className="text-sm capitalize badge">{user?.role}</p>
+            <h2 className="mt-4 text-lg font-bold">{users?.name}</h2>
+            <p className="text-sm capitalize badge">{users?.role}</p>
             <p className="text-sm flex gap-x-1 items-center justify-center">
-              <GrStatusWarning /> {users.status}
+              <GrStatusWarning /> {users?.status}
             </p>
             <p className="text-sm">{user?.email}</p>
           </div>

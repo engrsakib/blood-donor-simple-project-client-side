@@ -39,6 +39,8 @@ const AuthProvider = ({ children }) => {
   // console.log(user?.email);
 
   const provider = new GoogleAuthProvider();
+
+  
  
   // observerd
   useEffect(() => {
@@ -46,32 +48,22 @@ const AuthProvider = ({ children }) => {
     const subscribe = onAuthStateChanged(auth, (Currentuser) => {
      setLoadding(true);
       setUser(Currentuser);
-      console.log(Currentuser)
+      // console.log(Currentuser)
       setTimeout(() => {
         setLoadding(false);
       }, 2000);
       // console.log(Currentuser.email);
 
-      if (Currentuser?.email) {
-        fetch(`http://localhost:5000/users/${Currentuser?.email}`)
-          .then((res) => res.json())
-          .then((data) => setUser(data));
+      // if (Currentuser?.email) {
+      //   fetch(`http://localhost:5000/users/${Currentuser?.email}`)
+      //     .then((res) => res.json())
+      //     .then((data) => setUser(data));
 
-        // setLoadding(false);
-        setTimeout(() => {
-          setLoadding(false);
-        }, 2000);
-      } else {
-        axios
-          .post(
-            "http://localhost:5000/logout",
-            {},
-            {
-              withCredentials: true,
-            }
-          )
-          .then((res) => console.log(res.data));
-      }
+      //   // setLoadding(false);
+      //   setTimeout(() => {
+      //     setLoadding(false);
+      //   }, 2000);
+      // }
 
 
 
@@ -88,6 +80,16 @@ const AuthProvider = ({ children }) => {
           .then((data) => {
             console.log(data.data);
           });
+      } else {
+        axios
+          .post(
+            "http://localhost:5000/logout",
+            {},
+            {
+              withCredentials: true,
+            }
+          )
+          .then((res) => console.log(res.data));
       }
     });
 
@@ -103,6 +105,8 @@ const AuthProvider = ({ children }) => {
   }
   // console.log(user);
   // singin popup
+
+  
 
   //Register by email and password
   const crateMailPassword = (mail, password) => {

@@ -3,6 +3,8 @@ import { AuthContext } from "../../../provider/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
+import useGetAllUsers from "./AllUsers/useGetAllUsers";
+import Loading from "../../Loading";
 
 const districtData = {
   Magura: ["Magura Sadar", "Shalikha", "Sreepur", "Mohammadpur"],
@@ -291,14 +293,21 @@ const UserEdit = () => {
   const navigate = useNavigate();
 
   
+   const { users, refetch, isPending } = useGetAllUsers(user);
+
+   if (isPending) {
+     <Loading></Loading>;
+   }
+   refetch();
+
   // Form state
   const [formData, setFormData] = useState({
-    name: user.name,
-    photoUrl: user.photoUrl,
-    bloodGroup: user.bloodGroup || "",
-    district: user.district || "",
-    upazila: user.upazila || "",
-    last: user.last || "",
+    name: users.name,
+    photoUrl: users.photoUrl,
+    bloodGroup: users.bloodGroup || "",
+    district: users.district || "",
+    upazila: users.upazila || "",
+    last: users.last || "",
   });
 
   const handleChange = (e) => {
@@ -325,7 +334,7 @@ const UserEdit = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .put(`http://localhost:5000/users/update/${user.email}`, formData)
+          .put(`http://localhost:5000/users/update/${users.email}`, formData)
           .then((response) => {
             Swal.fire(
               "Saved!",

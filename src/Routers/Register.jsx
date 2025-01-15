@@ -396,8 +396,8 @@ const Register = () => {
           const dataToSend = {
             ...formData,
             photoUrl,
-            password: undefined, // Remove password from the data sent to the database
-            confirmPassword: undefined, // Remove confirmPassword
+            password: undefined, 
+            confirmPassword: undefined,
           };
 
           // Save user data to database

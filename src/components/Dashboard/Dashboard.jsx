@@ -5,15 +5,28 @@ import { MdMenu, MdOutlineDriveFileRenameOutline } from "react-icons/md";
 import { Helmet } from "react-helmet";
 import { FaUserGraduate } from "react-icons/fa";
 import { AuthContext } from "../../provider/AuthProvider";
+import useGetAllUsers from "./user/AllUsers/useGetAllUsers";
+import Loading from "../Loading";
 
 const Dashboard = () => {
   const {user, dark} = useContext(AuthContext);
   // console.log(user)
 
+  const { users, refetch, isPending } = useGetAllUsers(user);
+
+  if (isPending) {
+    <Loading></Loading>;
+  }
+  refetch();
+
+
+
+
   const adminDashboard = (
     <>
       <NavLink
         to="/dashboard"
+        end
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${isActive ? "btn-active" : ""}`
         }
@@ -80,16 +93,16 @@ const Dashboard = () => {
             <section className="flex flex-col justify-center items-center mt-3">
               <img
                 className="rounded-full border shadow h-[60px] w-[60px]"
-                src={user.photoUrl}
+                src={users.photoUrl}
                 alt="userPhoto"
               />
               <h1 className="flex gap-x-1 items-center text-white text-lg">
                 {" "}
-                <FaUserGraduate /> {user.name}
+                <FaUserGraduate /> {users.name}
               </h1>
               <h1 className="flex gap-x-1 items-center text-white text-sm">
                 {" "}
-                <MdOutlineDriveFileRenameOutline /> {user.role}
+                <MdOutlineDriveFileRenameOutline /> {users.role}
               </h1>
               <Link
                 to={"/dashboard/profile"}
