@@ -33,7 +33,7 @@ const AllUsers = () => {
     },
   });
 
-  console.log(users)
+  console.log(users);
   // Filter users based on status
   const filteredUsers = statusFilter
     ? users.filter((user) => user.status === statusFilter)
@@ -197,22 +197,30 @@ const AllUsers = () => {
                           }`}
                         >
                           {user.status === "active" ? (
-                            <FaUserLock />
+                            <span className="flex gap-x-1 capitalize">
+                              <FaUserLock /> block
+                            </span>
                           ) : (
-                            <FaUserCheck />
+                            <span className="flex gap-x-1 capitalize">
+                              <FaUserCheck /> unblock
+                            </span>
                           )}
                         </button>
                         <button
                           onClick={() => handleChangeRole(user._id, user.role)}
                           className="block w-full text-left btn btn-sm btn-info mt-2"
                         >
-                          <FaUserEdit />
+                          <span className="flex capitalize gap-x-1">
+                            <FaUserEdit /> change role
+                          </span>
                         </button>
                         <button
                           onClick={() => handleDelete(user._id)}
                           className="block w-full text-left btn btn-sm btn-danger mt-2"
                         >
-                          <FaTrash />
+                          <span className="flex capitalize gap-x-1">
+                            <FaTrash /> Delete
+                          </span>
                         </button>
                       </div>
                     </div>
