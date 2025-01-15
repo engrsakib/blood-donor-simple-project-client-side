@@ -114,17 +114,19 @@ const Dashboard = () => {
             {/* user icons and profile end */}
 
             {/* admin Dashboard start*/}
-            <section className="mt-2">
-              {/* icons */}
-              <div className="flex justify-start items-center gap-3 text-white text-xl">
-                <RiAdminFill /> <h4>admin</h4>
-              </div>
-              {/* menue */}
-              <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
-                {adminDashboard}
-              </menu>
-              {/* menue */}
-            </section>
+            {users.role === "admin" && (
+              <section className="mt-2">
+                {/* icons */}
+                <div className="flex justify-start items-center gap-3 text-white text-xl">
+                  <RiAdminFill /> <h4>admin</h4>
+                </div>
+                {/* menue */}
+                <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
+                  {adminDashboard}
+                </menu>
+                {/* menue */}
+              </section>
+            )}
             {/* admin Dashboard end*/}
           </ul>
         </div>
