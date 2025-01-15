@@ -4,11 +4,12 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Loading from "../../Loading";
 import Swal from "sweetalert2"; // Import Swal
+import { useNavigate } from "react-router-dom";
 
 const MyDonations = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
-
+ const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(5);
@@ -71,7 +72,7 @@ const MyDonations = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Redirect user to edit page
-        window.location.href = `/edit-donation/${id}`;
+         navigate(`/dashboard/donation/edit/${id}`);
       }
     });
   };

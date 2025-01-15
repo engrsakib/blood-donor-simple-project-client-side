@@ -15,6 +15,7 @@ import AllUsers from "../components/Dashboard/user/AllUsers/AllUsers";
 import Admin from "./Admin";
 import CreateDonations from "../components/Dashboard/Donor/CreateDonations";
 import MyDonations from "../components/Dashboard/Donor/MyDonations";
+import MyDonationEidit from "../components/Dashboard/Donor/MyDonationEidit";
 
 const router = createBrowserRouter([
   {
@@ -90,6 +91,14 @@ const router = createBrowserRouter([
         element: (
           <Privete>
             <MyDonations></MyDonations>
+          </Privete>
+        ),
+      },
+      {
+        path: "/dashboard/donation/edit/:id",
+        element: (
+          <Privete>
+            <MyDonationEidit></MyDonationEidit>
           </Privete>
         ),
       },
