@@ -2,15 +2,17 @@ import React, { useContext } from "react";
 
 import { FaUsers, FaHandHoldingHeart, FaTint } from "react-icons/fa";
 import { AuthContext } from "../../../provider/AuthProvider";
+import useGetusers from "../user/AllUsers/useGetusers";
 
 const AdminStatistics = () => {
   const { user, dark } = useContext(AuthContext);
+  const { users, refetch, isPending } = useGetusers();
 
   // Fixed data
   const stats = [
     {
       title: "Total Donors",
-      count: "5,437",
+      count: users.length,
       icon: <FaUsers className="text-4xl text-primary" />,
     },
     {

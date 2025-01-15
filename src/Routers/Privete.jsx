@@ -5,15 +5,15 @@ import useGetAllUsers from '../components/Dashboard/user/AllUsers/useGetAllUsers
 
 const Privete = ({ children }) => {
   const { user, setLoadding, Loadding } = useContext(AuthContext);
-
+  const location = useLocation();
    const { users, refetch, isPending } = useGetAllUsers(user);
     if(isPending){
-     return <Loadding></Loadding>
+      <Loadding></Loadding>
     }
     refetch();
 
 
-  const location = useLocation();
+  
   if (Loadding) {
     return;
   }
