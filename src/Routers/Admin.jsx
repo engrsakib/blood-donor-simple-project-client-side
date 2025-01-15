@@ -10,7 +10,7 @@ const Admin = ({ children }) => {
   const { users, refetch, isPending } = useGetAllUsers(user);
 
   if (isPending) {
-    <Loading></Loading>;
+    return <Loading></Loading>;
   }
   refetch();
 

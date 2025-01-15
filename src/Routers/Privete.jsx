@@ -8,7 +8,7 @@ const Privete = ({ children }) => {
 
    const { users, refetch, isPending } = useGetAllUsers(user);
     if(isPending){
-      <Loadding></Loadding>
+     return <Loadding></Loadding>
     }
     refetch();
 

@@ -12,6 +12,8 @@ import Loading from "../../../Loading";
 
 const AllUsers = () => {
   const [statusFilter, setStatusFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const {
     isLoading,
@@ -33,11 +35,24 @@ const AllUsers = () => {
     },
   });
 
-  console.log(users);
   // Filter users based on status
   const filteredUsers = statusFilter
     ? users.filter((user) => user.status === statusFilter)
     : users;
+
+  // Pagination Logic
+  const totalItems = filteredUsers.length;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  const paginatedUsers = filteredUsers.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+
+  const handlePageChange = (page) => setCurrentPage(page);
+  const handleItemsPerPageChange = (e) => {
+    setItemsPerPage(Number(e.target.value));
+    setCurrentPage(1); // Reset to first page on items per page change
+  };
 
   // Handle delete user
   const handleDelete = (id) => {
@@ -61,7 +76,7 @@ const AllUsers = () => {
   };
 
   // Handle change role
-  const handleChangeRole = (id, role) => {
+  const handleChangeRole = (id) => {
     Swal.fire({
       title: "Change Role",
       input: "select",
@@ -132,104 +147,123 @@ const AllUsers = () => {
           <option value="active">Active</option>
           <option value="blocked">Blocked</option>
         </select>
+        <select
+          value={itemsPerPage}
+          onChange={handleItemsPerPageChange}
+          className="select select-bordered w-full md:w-auto"
+        >
+          <option value={5}>5 per page</option>
+          <option value={10}>10 per page</option>
+          <option value={20}>20 per page</option>
+        </select>
       </div>
       {isLoading ? (
-        <Loading></Loading>
+        <Loading />
       ) : (
-        <div className="overflow-x-auto overflow-y-hidden">
-          {" "}
-          {/* Add this to enable horizontal scroll */}
-          <table className="table w-full border-collapse border border-gray-200">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Role</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredUsers.map((user) => (
-                <tr key={user._id}>
-                  <td>
-                    <div className="flex items-center gap-3">
-                      <div className="avatar">
-                        <div className="mask mask-squircle h-12 w-12">
-                          <img src={user.photoUrl} alt="Avatar" />
+        <>
+          <div className="overflow-x-auto overflow-y-hidden">
+            <table className="table w-full border-collapse border border-gray-200">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Role</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedUsers.map((user) => (
+                  <tr key={user._id}>
+                    <td>
+                      <div className="flex items-center gap-3">
+                        <div className="avatar">
+                          <div className="mask mask-squircle h-12 w-12">
+                            <img src={user.photoUrl} alt="Avatar" />
+                          </div>
+                        </div>
+                        <div>
+                          <div className="font-bold">{user.name}</div>
+                          <div className="text-sm opacity-50">{user.email}</div>
                         </div>
                       </div>
-                      <div>
-                        <div className="font-bold">{user.name}</div>
-                        <div className="text-sm opacity-50">{user.email}</div>
-                      </div>
-                    </div>
-                  </td>
-                  <td>
-                    <span className="badge badge-ghost badge-sm">
-                      {user.role}
-                    </span>
-                  </td>
-                  <td>
-                    <span
-                      className={`badge ${
-                        user.status === "active"
-                          ? "badge-success"
-                          : "badge-error"
-                      }`}
-                    >
-                      {user.status}
-                    </span>
-                  </td>
-                  <th>
-                    <div className="dropdown dropdown-left z-50">
-                      <button className="btn btn-ghost btn-xs">
-                        <FaEllipsisV />
-                      </button>
-                      <div className="dropdown-content mt-2 p-2 w-48 bg-white shadow-lg rounded-md">
-                        <button
-                          onClick={() =>
-                            handleToggleStatus(user._id, user.status)
-                          }
-                          className={`block w-full text-left btn btn-sm ${
-                            user.status === "active"
-                              ? "btn-warning"
-                              : "btn-success"
-                          }`}
-                        >
-                          {user.status === "active" ? (
-                            <span className="flex gap-x-1 capitalize">
-                              <FaUserLock /> block
+                    </td>
+                    <td>{user.role}</td>
+                    <td>
+                      <span
+                        className={`badge ${
+                          user.status === "active"
+                            ? "badge-success"
+                            : "badge-error"
+                        }`}
+                      >
+                        {user.status}
+                      </span>
+                    </td>
+                    <td>
+                      <div className="dropdown dropdown-left z-50">
+                        <button className="btn btn-ghost btn-xs">
+                          <FaEllipsisV />
+                        </button>
+                        <div className="dropdown-content mt-2 p-2 w-48 bg-white shadow-lg rounded-md">
+                          <button
+                            onClick={() =>
+                              handleToggleStatus(user._id, user.status)
+                            }
+                            className={`block w-full text-left btn btn-sm ${
+                              user.status === "active"
+                                ? "btn-warning"
+                                : "btn-success"
+                            }`}
+                          >
+                            {user.status === "active" ? (
+                              <span className="flex gap-x-1 capitalize">
+                                <FaUserLock /> Block
+                              </span>
+                            ) : (
+                              <span className="flex gap-x-1 capitalize">
+                                <FaUserCheck /> Unblock
+                              </span>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => handleChangeRole(user._id)}
+                            className="block w-full text-left btn btn-sm btn-info mt-2"
+                          >
+                            <span className="flex capitalize gap-x-1">
+                              <FaUserEdit /> Change Role
                             </span>
-                          ) : (
-                            <span className="flex gap-x-1 capitalize">
-                              <FaUserCheck /> unblock
+                          </button>
+                          <button
+                            onClick={() => handleDelete(user._id)}
+                            className="block w-full text-left btn btn-sm btn-danger mt-2"
+                          >
+                            <span className="flex capitalize gap-x-1">
+                              <FaTrash /> Delete
                             </span>
-                          )}
-                        </button>
-                        <button
-                          onClick={() => handleChangeRole(user._id, user.role)}
-                          className="block w-full text-left btn btn-sm btn-info mt-2"
-                        >
-                          <span className="flex capitalize gap-x-1">
-                            <FaUserEdit /> change role
-                          </span>
-                        </button>
-                        <button
-                          onClick={() => handleDelete(user._id)}
-                          className="block w-full text-left btn btn-sm btn-danger mt-2"
-                        >
-                          <span className="flex capitalize gap-x-1">
-                            <FaTrash /> Delete
-                          </span>
-                        </button>
+                          </button>
+                        </div>
                       </div>
-                    </div>
-                  </th>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {/* Pagination Controls */}
+          <div className="mt-4 flex justify-center">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-ghost"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+        </>
       )}
     </div>
   );
