@@ -4,9 +4,9 @@ import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../provider/AuthProvider";
 import Loading from "../../Loading";
 import Swal from "sweetalert2"; // Import Swal
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-const MyDonations = () => {
+const MyDonationsPro = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const MyDonations = () => {
     queryKey: ["donations", email],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:5000/donations/${email}`
+        `http://localhost:5000/donations/home/${email}`
       );
       return response.data;
     },
@@ -103,7 +103,7 @@ const MyDonations = () => {
     currentPage * itemsPerPage
   );
 
-  if (donations.length == 0) {
+  if(donations.length == 0){
     return (
       <>
         <img
@@ -114,35 +114,14 @@ const MyDonations = () => {
     );
   }
   return (
-    <div className="min-h-screen w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
+    <div className="min-h-[1/2] w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
       <div>
         <h1 className="text-2xl font-bold text-center mb-6">
-          My Donation Requests ({donations.length})
+          My Latest Donation
         </h1>
 
-        <div className="flex flex-row justify-between items-center mb-4 gap-4">
-          <select
-            className="select select-bordered w-40"
-            value={statusFilter}
-            onChange={handleStatusChange}
-          >
-            <option value="">All</option>
-            <option value="pending">Pending</option>
-            <option value="inprogress">In Progress</option>
-            <option value="done">Done</option>
-            <option value="canceled">Canceled</option>
-          </select>
-
-          <select
-            className="select select-bordered w-40"
-            value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
-          >
-            <option value={5}>5 per page</option>
-            <option value={10}>10 per page</option>
-            <option value={15}>15 per page</option>
-            <option value={20}>20 per page</option>
-          </select>
+        <div className="flex flex-row justify-end items-center mb-4 gap-4">
+          <Link to={`/dashboard/my-donation-requests`} className="btn btn-warning">View All</Link>
         </div>
 
         <div className="overflow-x-auto">
@@ -213,22 +192,8 @@ const MyDonations = () => {
           </table>
         </div>
       </div>
-
-      <div className="flex justify-center mt-4 sticky bottom-0 bg-base-200 py-4">
-        <div className="btn-group">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              className={`btn ${page === currentPage ? "btn-active" : ""}`}
-              onClick={() => setCurrentPage(page)}
-            >
-              {page}
-            </button>
-          ))}
-        </div>
-      </div>
     </div>
   );
 };
 
-export default MyDonations;
+export default MyDonationsPro;

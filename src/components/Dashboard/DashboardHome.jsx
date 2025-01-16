@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
 import AdminStatistics from "./admin/AdminStatistics";
 import useGetAllUsers from "./user/AllUsers/useGetAllUsers";
+import MyDonationsPro from "./Donor/MyDonationsPro";
 
 const DashboardHome = () => {
   const { user, dark } = useContext(AuthContext);
@@ -27,7 +28,7 @@ const DashboardHome = () => {
       {/* only for admin and volunteer */}
       <section>
         {(users.role == "donor") && (
-          <AdminStatistics></AdminStatistics>
+          <MyDonationsPro></MyDonationsPro>
         )}
       </section>
       {/* only for admin and volunteer */}
