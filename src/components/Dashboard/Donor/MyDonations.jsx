@@ -39,9 +39,7 @@ const MyDonations = () => {
   };
 
   const handleDetailsClick = (donation) => {
-    alert(
-      `Details of Donation:\nRequester: ${donation.requesterName}\nBlood Group: ${donation.bloodGroup}\nStatus: ${donation.status}\nDonation Date: ${donation.donationDate}`
-    );
+    navigate(`/dashboard/donation/detiels/${donation}`);
   };
 
   const handleStatusUpdate = async (id, newStatus) => {
@@ -106,7 +104,7 @@ const MyDonations = () => {
   );
 
   return (
-    <div className="min-h-screen w-full ml-3 p-4 mx-auto bg-base-200 rounded-lg shadow-md flex flex-col justify-between">
+    <div className="min-h-screen w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
       <div>
         <h1 className="text-2xl font-bold text-center mb-6">
           My Donation Requests
@@ -146,6 +144,7 @@ const MyDonations = () => {
                 <th>Blood Group</th>
                 <th>Status</th>
                 <th>Donation Date</th>
+                <th>District</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -157,10 +156,11 @@ const MyDonations = () => {
                   <td>{donation?.bloodGroup}</td>
                   <td>{donation?.status}</td>
                   <td>{donation?.donationDate}</td>
+                  <td>{donation?.district}</td>
                   <td className="flex flex-wrap gap-2">
                     <button
                       className="btn btn-sm btn-primary"
-                      onClick={() => handleDetailsClick(donation)}
+                      onClick={() => handleDetailsClick(donation._id)}
                     >
                       Details
                     </button>
