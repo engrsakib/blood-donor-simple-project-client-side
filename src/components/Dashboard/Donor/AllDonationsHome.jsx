@@ -6,6 +6,7 @@ import Loading from "../../Loading";
 import Swal from "sweetalert2"; // Import Swal
 import { useNavigate } from "react-router-dom";
 import useGetAllUsers from "../user/AllUsers/useGetAllUsers";
+import { Helmet } from "react-helmet";
 
 const AllDonationsHome = () => {
   const { user } = useContext(AuthContext);
@@ -28,10 +29,7 @@ const AllDonationsHome = () => {
     },
   });
 
-  const handleStatusChange = (e) => {
-    setStatusFilter(e.target.value);
-    setCurrentPage(1);
-  };
+  refetch();
 
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(Number(e.target.value));
@@ -56,78 +54,81 @@ const AllDonationsHome = () => {
   );
 
   return (
-    <div className="min-h-screen w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
-      <div>
-        <h1 className="text-2xl font-bold text-center mb-6">
-          All Donation Requests
-        </h1>
+    <>
+    <Helmet>
+        <title>All Donations Request</title>
+    </Helmet>
+      <div className="min-h-screen w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
+        <div>
+          <h1 className="text-2xl font-bold text-center mb-6">
+            All Donation Requests
+          </h1>
 
-        <div className="flex flex-row justify-end items-center mb-4 gap-4">
-          
-
-          <select
-            className="select select-bordered w-40"
-            value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
-          >
-            <option value={5}>5 per page</option>
-            <option value={10}>10 per page</option>
-            <option value={15}>15 per page</option>
-            <option value={20}>20 per page</option>
-          </select>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="table table-zebra w-full">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Recipient Name</th>
-                <th>Blood Group</th>
-                <th>Status</th>
-                <th>Donation Date</th>
-                <th>District</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {paginatedDonations.map((donation, index) => (
-                <tr key={donation._id}>
-                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                  <td>{donation?.recipientName}</td>
-                  <td>{donation?.bloodGroup}</td>
-                  <td>{donation?.status}</td>
-                  <td>{donation?.donationDate}</td>
-                  <td>{donation?.district}</td>
-                  <td className="flex flex-wrap gap-2">
-                    <button
-                      className="btn btn-sm btn-primary"
-                      onClick={() => handleDetailsClick(donation._id)}
-                    >
-                      Details
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-
-      <div className="flex justify-center mt-4 sticky bottom-0 bg-base-200 py-4">
-        <div className="btn-group">
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-            <button
-              key={page}
-              className={`btn ${page === currentPage ? "btn-active" : ""}`}
-              onClick={() => setCurrentPage(page)}
+          <div className="flex flex-row justify-end items-center mb-4 gap-4">
+            <select
+              className="select select-bordered w-40"
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
             >
-              {page}
-            </button>
-          ))}
+              <option value={5}>5 per page</option>
+              <option value={10}>10 per page</option>
+              <option value={15}>15 per page</option>
+              <option value={20}>20 per page</option>
+            </select>
+          </div>
+
+          <div className="overflow-x-auto">
+            <table className="table table-zebra w-full">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Recipient Name</th>
+                  <th>Blood Group</th>
+                  <th>Status</th>
+                  <th>Donation Date</th>
+                  <th>District</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedDonations.map((donation, index) => (
+                  <tr key={donation._id}>
+                    <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                    <td>{donation?.recipientName}</td>
+                    <td>{donation?.bloodGroup}</td>
+                    <td>{donation?.status}</td>
+                    <td>{donation?.donationDate}</td>
+                    <td>{donation?.district}</td>
+                    <td className="flex flex-wrap gap-2">
+                      <button
+                        className="btn btn-sm btn-primary"
+                        onClick={() => handleDetailsClick(donation._id)}
+                      >
+                        Details
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div className="flex justify-center mt-4 sticky bottom-0 bg-base-200 py-4">
+          <div className="btn-group">
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={`btn ${page === currentPage ? "btn-active" : ""}`}
+                onClick={() => setCurrentPage(page)}
+              >
+                {page}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 
