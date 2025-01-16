@@ -42,55 +42,7 @@ const AllDonationsHome = () => {
     navigate(`/dashboard/donation/detiels/${donation}`);
   };
 
-  const handleStatusUpdate = async (id, newStatus) => {
-    const confirmed = await Swal.fire({
-      title: `Are you sure you want to change the status to "${newStatus}"?`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes",
-      cancelButtonText: "Cancel",
-    });
-
-    if (confirmed.isConfirmed) {
-      await axios.patch(`http://localhost:5000/donations/${id}`, {
-        status: newStatus,
-      });
-      refetch();
-      Swal.fire("Success!", `Status updated to ${newStatus}.`, "success");
-    }
-  };
-
-  const handleEditClick = (id) => {
-    Swal.fire({
-      title: "Are you sure you want to edit this donation?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, Edit it!",
-      cancelButtonText: "Cancel",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate(`/dashboard/donation/edit/${id}`);
-      }
-    });
-  };
-
-  const handleDeleteClick = async (id) => {
-    const confirmed = await Swal.fire({
-      title: "Are you sure you want to delete this donation request?",
-      text: "This action cannot be undone!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "Cancel",
-    });
-
-    if (confirmed.isConfirmed) {
-      await axios.delete(`http://localhost:5000/donations/${id}`);
-      refetch();
-      Swal.fire("Deleted!", "Donation request has been deleted.", "success");
-    }
-  };
-
+  
   if (isPending) return <Loading />;
 
   const filteredDonations = statusFilter
@@ -110,18 +62,8 @@ const AllDonationsHome = () => {
           All Donation Requests
         </h1>
 
-        <div className="flex flex-row justify-between items-center mb-4 gap-4">
-          <select
-            className="select select-bordered w-40"
-            value={statusFilter}
-            onChange={handleStatusChange}
-          >
-            <option value="">All</option>
-            <option value="pending">Pending</option>
-            <option value="inprogress">In Progress</option>
-            <option value="done">Done</option>
-            <option value="canceled">Canceled</option>
-          </select>
+        <div className="flex flex-row justify-end items-center mb-4 gap-4">
+          
 
           <select
             className="select select-bordered w-40"
@@ -163,42 +105,6 @@ const AllDonationsHome = () => {
                       onClick={() => handleDetailsClick(donation._id)}
                     >
                       Details
-                    </button>
-                    {donation.status === "inprogress" && (
-                      <>
-                        <button
-                          className="btn btn-sm btn-success"
-                          onClick={() =>
-                            handleStatusUpdate(donation._id, "done")
-                          }
-                        >
-                          Mark as Done
-                        </button>
-                        <button
-                          className="btn btn-sm btn-warning"
-                          onClick={() =>
-                            handleStatusUpdate(donation._id, "canceled")
-                          }
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    )}
-                    <button
-                      className={`btn btn-sm btn-info ${
-                        users.role === "volunteer" && "hidden"
-                      }`}
-                      onClick={() => handleEditClick(donation._id)}
-                    >
-                      Edit
-                    </button>
-                    <button
-                      className={`btn btn-sm btn-error ${
-                        users.role === "volunteer" && "hidden"
-                      }`}
-                      onClick={() => handleDeleteClick(donation._id)}
-                    >
-                      Delete
                     </button>
                   </td>
                 </tr>
