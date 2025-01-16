@@ -6,17 +6,17 @@ import { Helmet } from "react-helmet";
 import { AuthContext } from "../../../provider/AuthProvider";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { cleanPath } from "@tanstack/react-router";
 import { GrStatusWarning } from "react-icons/gr";
+import Modal from "react-modal";
 
 const Details = () => {
   const { dark, setActive, active } = useContext(AuthContext);
   const [disabled, setdisabled] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState(false); // Modal state
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  // console.log(data[0])
   const { id } = useParams();
-  // console.log(id)
+
   const {
     isLoading: isPending,
     data: data = [],
@@ -31,7 +31,6 @@ const Details = () => {
     },
   });
 
-  console.log(data);
   const {
     recipientName,
     district,
@@ -47,32 +46,42 @@ const Details = () => {
     email,
     status,
   } = data;
-  
-  useEffect(()=>{
-    if (status == "canceled" || status == "done" || status == "inprogress") {
+
+  useEffect(() => {
+    if (status === "canceled" || status === "done" || status === "inprogress") {
       setdisabled(true);
     }
-  },[status])
-  // donetation section handel
-  const handleDonate = (id) => {
-    if (active) {
-      if (name === user.name) {
-        Swal.fire({
-          icon: "error",
-          title: "Donation Faild",
-          text: `You can't donated in your own campagion`,
-        });
-        return;
-      }
-      navigate(`/donation/all-campagion/details/donated/${id}`);
-    } else {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Donations date!",
-      });
-    }
+  }, [status]);
+
+  // Handle modal toggle
+  const toggleModal = () => {
+    setModalIsOpen(!modalIsOpen);
   };
+
+  // Handle form submit
+  const handleSubmit = async(event) => {
+    event.preventDefault();
+    const newStatus = "inprogress";
+    const confirmed = await Swal.fire({
+      title: `Are you sure you want to donations"?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes",
+      cancelButtonText: "Cancel",
+    });
+    // console.log(newStatus)
+    if (confirmed.isConfirmed) {
+      await axios.patch(`http://localhost:5000/donations/${_id}`, {
+        status: newStatus,
+      });
+      refetch();
+      setModalIsOpen(!modalIsOpen);
+      Swal.fire("Success!", `Your contributions is recorded`, "success");
+    }
+    
+    
+  };
+
   return (
     <>
       <div className="flex flex-col lg:flex-row gap-8 px-6 lg:px-16 py-8">
@@ -83,17 +92,12 @@ const Details = () => {
             alt="Fundraiser"
             className="rounded-lg shadow-md w-full h-[400px] object-cover"
           />
-          <h1 className="text-3xl font-bold mt-4">{}</h1>
+          <h1 className="text-3xl font-bold mt-4">{bloodGroup} Donation</h1>
           <p className="text-gray-600 mt-2">
             <span className="font-semibold badge ">
               <GrStatusWarning /> {status}{" "}
             </span>
           </p>
-          <div
-            className={`${
-              active ? "bg-green-400" : "bg-red-400"
-            } mt-4 p-4 rounded-md`}
-          ></div>
           <p className={`${dark ? "text-gray-200" : "text-gray-800"} mt-4`}>
             {requestMessage}
           </p>
@@ -108,9 +112,7 @@ const Details = () => {
 
           <button
             disabled={disabled}
-            onClick={() => {
-              handleDonate(_id);
-            }}
+            onClick={toggleModal}
             className="btn btn-primary w-full my-2"
           >
             Donate Now
@@ -146,17 +148,51 @@ const Details = () => {
               <p className="font-medium">Donation Time</p>
               <p className="text-gray-500">{donationTime}</p>
             </li>
-            {/* <li className="flex justify-between">
-              <p className="font-medium">Davinder Sapra</p>
-              <p className="text-gray-500">$5,000</p>
-            </li>
-            <li className="flex justify-between">
-              <p className="font-medium">Anonymous</p>
-              <p className="text-gray-500">$500</p>
-            </li> */}
           </ul>
         </div>
       </div>
+
+      {/* Modal */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={toggleModal}
+        contentLabel="Donate"
+      >
+        <h2 className="text-xl font-bold">Donate Blood</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="my-4">
+            <label className="block font-medium">Name</label>
+            <input
+              type="text"
+              value={requesterName}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div className="my-4">
+            <label className="block font-medium">Email</label>
+            <input
+              type="email"
+              value={user.email}
+              readOnly
+              className="input input-bordered w-full"
+            />
+          </div>
+          <div className="flex justify-end gap-4">
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={toggleModal}
+            >
+              Cancel
+            </button>
+            <button onClick={()=>{handleSubmit}} type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </div>
+        </form>
+      </Modal>
+
       <Helmet>
         <meta charSet="utf-8" />
         <title>Donations Details</title>
