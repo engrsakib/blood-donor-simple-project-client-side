@@ -9,10 +9,10 @@ import { useNavigate } from "react-router-dom";
 const MyDonations = () => {
   const { user } = useContext(AuthContext);
   const email = user?.email;
- const navigate = useNavigate();
+  const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(10); // Default 10 per page
 
   const {
     isLoading: isPending,
@@ -30,7 +30,7 @@ const MyDonations = () => {
 
   const handleStatusChange = (e) => {
     setStatusFilter(e.target.value);
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const handleItemsPerPageChange = (e) => {
@@ -71,8 +71,7 @@ const MyDonations = () => {
       cancelButtonText: "Cancel",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Redirect user to edit page
-         navigate(`/dashboard/donation/edit/${id}`);
+        navigate(`/dashboard/donation/edit/${id}`);
       }
     });
   };
@@ -107,101 +106,105 @@ const MyDonations = () => {
   );
 
   return (
-    <div className="p-4 ml-4 w-full mx-auto bg-base-200 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-center mb-6">
-        My Donation Requests
-      </h1>
+    <div className="min-h-screen w-full ml-3 p-4 mx-auto bg-base-200 rounded-lg shadow-md flex flex-col justify-between">
+      <div>
+        <h1 className="text-2xl font-bold text-center mb-6">
+          My Donation Requests
+        </h1>
 
-      <div className="flex flex-row justify-between items-center mb-4 gap-4">
-        <select
-          className="select select-bordered w-40"
-          value={statusFilter}
-          onChange={handleStatusChange}
-        >
-          <option value="">All</option>
-          <option value="pending">Pending</option>
-          <option value="inprogress">In Progress</option>
-          <option value="done">Done</option>
-          <option value="canceled">Canceled</option>
-        </select>
+        <div className="flex flex-row justify-between items-center mb-4 gap-4">
+          <select
+            className="select select-bordered w-40"
+            value={statusFilter}
+            onChange={handleStatusChange}
+          >
+            <option value="">All</option>
+            <option value="pending">Pending</option>
+            <option value="inprogress">In Progress</option>
+            <option value="done">Done</option>
+            <option value="canceled">Canceled</option>
+          </select>
 
-        <select
-          className="select select-bordered w-40"
-          value={itemsPerPage}
-          onChange={handleItemsPerPageChange}
-        >
-          <option value={5}>5 per page</option>
-          <option value={10}>10 per page</option>
-          <option value={15}>15 per page</option>
-          <option value={20}>20 per page</option>
-        </select>
-      </div>
+          <select
+            className="select select-bordered w-40"
+            value={itemsPerPage}
+            onChange={handleItemsPerPageChange}
+          >
+            <option value={5}>5 per page</option>
+            <option value={10}>10 per page</option>
+            <option value={15}>15 per page</option>
+            <option value={20}>20 per page</option>
+          </select>
+        </div>
 
-      <div className="overflow-x-auto">
-        <table className="table table-zebra w-full">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Recipient Name</th>
-              <th>Blood Group</th>
-              <th>Status</th>
-              <th>Donation Date</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedDonations.map((donation, index) => (
-              <tr key={donation._id}>
-                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                <td>{donation?.recipientName}</td>
-                <td>{donation?.bloodGroup}</td>
-                <td>{donation?.status}</td>
-                <td>{donation?.donationDate}</td>
-                <td className="flex flex-wrap gap-2">
-                  <button
-                    className="btn btn-sm btn-primary"
-                    onClick={() => handleDetailsClick(donation)}
-                  >
-                    Details
-                  </button>
-                  {donation.status === "inprogress" && (
-                    <>
-                      <button
-                        className="btn btn-sm btn-success"
-                        onClick={() => handleStatusUpdate(donation._id, "done")}
-                      >
-                        Mark as Done
-                      </button>
-                      <button
-                        className="btn btn-sm btn-warning"
-                        onClick={() =>
-                          handleStatusUpdate(donation._id, "canceled")
-                        }
-                      >
-                        Cancel
-                      </button>
-                    </>
-                  )}
-                  <button
-                    className="btn btn-sm btn-info"
-                    onClick={() => handleEditClick(donation._id)}
-                  >
-                    Edit
-                  </button>
-                  <button
-                    className="btn btn-sm btn-error"
-                    onClick={() => handleDeleteClick(donation._id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+        <div className="overflow-x-auto">
+          <table className="table table-zebra w-full">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Recipient Name</th>
+                <th>Blood Group</th>
+                <th>Status</th>
+                <th>Donation Date</th>
+                <th>Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {paginatedDonations.map((donation, index) => (
+                <tr key={donation._id}>
+                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                  <td>{donation?.recipientName}</td>
+                  <td>{donation?.bloodGroup}</td>
+                  <td>{donation?.status}</td>
+                  <td>{donation?.donationDate}</td>
+                  <td className="flex flex-wrap gap-2">
+                    <button
+                      className="btn btn-sm btn-primary"
+                      onClick={() => handleDetailsClick(donation)}
+                    >
+                      Details
+                    </button>
+                    {donation.status === "inprogress" && (
+                      <>
+                        <button
+                          className="btn btn-sm btn-success"
+                          onClick={() =>
+                            handleStatusUpdate(donation._id, "done")
+                          }
+                        >
+                          Mark as Done
+                        </button>
+                        <button
+                          className="btn btn-sm btn-warning"
+                          onClick={() =>
+                            handleStatusUpdate(donation._id, "canceled")
+                          }
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
+                    <button
+                      className="btn btn-sm btn-info"
+                      onClick={() => handleEditClick(donation._id)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="btn btn-sm btn-error"
+                      onClick={() => handleDeleteClick(donation._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
-      <div className="flex justify-center mt-4">
+      <div className="flex justify-center mt-4 sticky bottom-0 bg-base-200 py-4">
         <div className="btn-group">
           {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
             <button
