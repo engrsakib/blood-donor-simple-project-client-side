@@ -44,7 +44,7 @@ const Dashboard = () => {
         All users
       </NavLink>
       <NavLink
-        to=" /dashboard/all-blood-donation-request"
+        to="/dashboard/all-blood-donation-request"
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${
             isActive ? "btn-active" : ""

@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { GrStatusWarning } from "react-icons/gr";
 import Modal from "react-modal";
+import useGetAllUsers from "../user/AllUsers/useGetAllUsers";
 
 const Details = () => {
   const { dark, setActive, active } = useContext(AuthContext);
@@ -16,6 +17,7 @@ const Details = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { id } = useParams();
+  const { users } = useGetAllUsers(user);
 
   const {
     isLoading: isPending,
@@ -48,18 +50,23 @@ const Details = () => {
   } = data;
 
   useEffect(() => {
-    if (status === "canceled" || status === "done" || status === "inprogress") {
+    if (
+      status === "canceled" ||
+      status === "done" ||
+      status === "inprogress" ||
+      users.status === "blocked"
+    ) {
       setdisabled(true);
     }
-  }, [status]);
-
+  }, [status, users.status]);
+//   console.log(users.status)
   // Handle modal toggle
   const toggleModal = () => {
     setModalIsOpen(!modalIsOpen);
   };
 
   // Handle form submit
-  const handleSubmit = async(event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const newStatus = "inprogress";
     const confirmed = await Swal.fire({
@@ -78,8 +85,6 @@ const Details = () => {
       setModalIsOpen(!modalIsOpen);
       Swal.fire("Success!", `Your contributions is recorded`, "success");
     }
-    
-    
   };
 
   return (
@@ -186,7 +191,13 @@ const Details = () => {
             >
               Cancel
             </button>
-            <button onClick={()=>{handleSubmit}} type="submit" className="btn btn-primary">
+            <button
+              onClick={() => {
+                handleSubmit;
+              }}
+              type="submit"
+              className="btn btn-primary"
+            >
               Submit
             </button>
           </div>

@@ -17,6 +17,7 @@ import CreateDonations from "../components/Dashboard/Donor/CreateDonations";
 import MyDonations from "../components/Dashboard/Donor/MyDonations";
 import MyDonationEidit from "../components/Dashboard/Donor/MyDonationEidit";
 import Details from "../components/Dashboard/Donor/Details";
+import AllDonations from "../components/Dashboard/Donor/AllDonations";
 
 const router = createBrowserRouter([
   {
@@ -96,6 +97,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+        path: "/dashboard/all-blood-donation-request",
+        element: (
+          <Privete>
+            <AllDonations></AllDonations>
+          </Privete>
+        ),
+      },
+      {
         path: "/dashboard/donation/edit/:id",
         element: (
           <Privete>
@@ -105,9 +114,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/donation/detiels/:id",
-        element: <Privete>
-          <Details></Details>
-        </Privete>,
+        element: (
+          <Privete>
+            <Details></Details>
+          </Privete>
+        ),
       },
       {
         path: "/dashboard/all-users",
