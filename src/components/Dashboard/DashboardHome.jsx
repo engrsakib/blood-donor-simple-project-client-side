@@ -17,13 +17,20 @@ const DashboardHome = () => {
           ready for your contributions?
         </h1>
       </div>
-      {/* only for admin */}
+      {/* only for admin and volunteer */}
       <section>
         {(users.role == "admin" || users.role == "volunteer") && (
           <AdminStatistics></AdminStatistics>
         )}
       </section>
-      {/* only for admin */}
+      {/* only for admin and volunteer */}
+      {/* only for admin and volunteer */}
+      <section>
+        {(users.role == "donor") && (
+          <AdminStatistics></AdminStatistics>
+        )}
+      </section>
+      {/* only for admin and volunteer */}
     </>
   );
 };

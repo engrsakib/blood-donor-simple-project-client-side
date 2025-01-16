@@ -130,7 +130,7 @@ const LogIn = () => {
             </p>
           </div>
           
-            <Google></Google>
+            {/* <Google></Google> */}
         </div>
       </div>
     </>
