@@ -6,6 +6,7 @@ import JoditEditor from "jodit-react";
 import Swal from "sweetalert2";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useGetAllUsers from "../user/AllUsers/useGetAllUsers";
+import HTMLReactParser from "html-react-parser";
 
 const CreateBlogs = () => {
   const { user, dark } = useContext(AuthContext);
@@ -16,7 +17,7 @@ const CreateBlogs = () => {
   const [thumbnail, setThumbnail] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  const { users, refetch, isPending } = useGetAllUsers();
+  const { users, refetch, isPending } = useGetAllUsers(user);
   const name = users.name;
   const email = users.email;
 
@@ -73,16 +74,16 @@ const CreateBlogs = () => {
       content,
       author: name || "Anonymous",
       email: email || "No email",
-      createdAt: new Date().toISOString(),
+      createdAt: new Date().toISOString().split("T")[0],
       status: "draft",
     };
-
+    
     try {
       const response = await axios.post(
         "http://localhost:5000/blogs",
         blogData
       );
-      if (response.status === 201) {
+      if (response) {
         Swal.fire("Success", "Blog created successfully!", "success");
         // Clear the form fields
         setTitle("");
@@ -152,9 +153,10 @@ const CreateBlogs = () => {
                 config={{
                   readonly: false,
                   height: 500,
+                  textAlign: "left",
                 }}
                 onBlur={(newContent) => setContent(newContent)}
-                onChange={(newContent) => {
+                onSubmit={(newContent) => {
                   setContent(newContent);
                 }}
               />
