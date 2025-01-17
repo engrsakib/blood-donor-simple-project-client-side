@@ -103,7 +103,7 @@ const Header = () => {
     <div
       className={`navbar ${
         dark ? "bg-gray-900 text-gray-50" : "bg-gray-100 text-gray-900"
-      }`}
+      } rounded-lg p-3 shadow-md`}
     >
       {/* Navbar Start */}
       <div className="navbar-start">

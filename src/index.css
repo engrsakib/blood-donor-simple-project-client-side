@@ -7,3 +7,12 @@
         @apply w-full h-full object-cover;
     }
 }
+@layer base {
+    .bg-header{
+        background-image: url('https://cdn.deshrupantor.net/contents/cache/images/640x358x1/uploads/old/news_images/2019/06/19/Blood.jpg');
+        opacity: 20%;
+        background-repeat: no-repeat;
+        background-position: center;
+        object-fit: cover;
+    }
+}
