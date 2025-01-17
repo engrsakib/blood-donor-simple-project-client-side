@@ -19,6 +19,7 @@ import MyDonationEidit from "../components/Dashboard/Donor/MyDonationEidit";
 import Details from "../components/Dashboard/Donor/Details";
 import AllDonations from "../components/Dashboard/Donor/AllDonations";
 import AllDonationsHome from "../components/Dashboard/Donor/AllDonationsHome";
+import Blogs from "../components/Dashboard/Donor/Blogs";
 
 const router = createBrowserRouter([
   {
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: "/donationrequests",
         element: <AllDonationsHome></AllDonationsHome>,
+      },
+      {
+        path: "//blogs",
+        element: <Blogs></Blogs>,
       },
       {
         path: "/auth/login",

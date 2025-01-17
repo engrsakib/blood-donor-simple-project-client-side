@@ -61,7 +61,7 @@ const AllDonationsHome = () => {
       <div className="min-h-screen w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
         <div>
           <h1 className="text-2xl font-bold text-center mb-6">
-            All Donation Requests
+            All Donation Requests ({donations.length})
           </h1>
 
           <div className="flex flex-row justify-end items-center mb-4 gap-4">
