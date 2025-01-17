@@ -150,8 +150,8 @@ const ContentManagement = () => {
           <Loading />
         ) : (
           <>
-            <div className="overflow-x-auto overflow-y-hidden">
-              <table className="table w-full min-h-screen border-collapse border border-gray-200">
+            <div className="overflow-x-auto min-h-screen border overflow-y-hidden">
+              <table className="table w-full border-collapse border border-gray-200">
                 <thead>
                   <tr>
                     <th>#</th>
