@@ -14,7 +14,7 @@ const Blogs = () => {
           {/* button */}
           <div className="flex flex-row justify-end items-center mb-4 gap-4">
             <Link
-              to={`/dashboard/my-donation-requests`}
+              to={`/dashboard/content-management/add-blog`}
               className="btn btn-warning"
             >
               Create a blogs
