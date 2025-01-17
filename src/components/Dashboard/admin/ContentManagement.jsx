@@ -34,7 +34,7 @@ const ContentManagement = () => {
       }
     },
   });
-  console.log(blogs)
+//   console.log(blogs)
   // Filter blogs based on status
   const filteredBlogs = statusFilter
     ? blogs.filter((blog) => blog.status === statusFilter)
@@ -76,36 +76,42 @@ const ContentManagement = () => {
   };
 
   // Handle toggle status
-  const handleToggleStatus = (id, status) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: `This will ${
-        status === "published" ? "draft" : "publish"
-      } the blog.`,
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: status === "published" ? "Draft" : "Publish",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const newStatus = status === "published" ? "draft" : "published";
-        fetch(`http://localhost:5000/blogs/status/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: newStatus }),
-        })
-          .then((res) => res.json())
-          .then(() => {
-            Swal.fire(
-              "Success!",
-              `Blog status updated to ${newStatus}.`,
-              "success"
-            );
-            refetch();
-          })
-          .catch((error) => console.error("Error updating status:", error));
-      }
-    });
-  };
+ const handleToggleStatus = (id, status) => {
+   Swal.fire({
+     title: "Are you sure?",
+     text: `This will ${
+       status === "published" ? "draft" : "publish"
+     } the blog.`,
+     icon: "warning",
+     showCancelButton: true,
+     confirmButtonText: status === "published" ? "Draft" : "Publish",
+   }).then((result) => {
+     if (result.isConfirmed) {
+       const newStatus = status === "published" ? "draft" : "published";
+
+       // Using Axios to send the PATCH request to the backend
+       axios
+         .patch(`http://localhost:5000/blogs/${id}`, { status: newStatus })
+         .then((response) => {
+           Swal.fire(
+             "Success!",
+             `Blog status updated to ${newStatus}.`,
+             "success"
+           );
+           refetch(); // Refetch data after status update
+         })
+         .catch((error) => {
+           console.error("Error updating status:", error);
+           Swal.fire("Error", "Failed to update blog status.", "error");
+         });
+     }
+   });
+ };
+
+
+  const handleDetails = (id)=>{
+    console.log(id)
+  }
 
   return (
     <>
@@ -151,6 +157,7 @@ const ContentManagement = () => {
                     <th>#</th>
                     <th>Title</th>
                     <th>Author</th>
+                    <th>created Date</th>
                     <th>Status</th>
                     <th>Actions</th>
                   </tr>
@@ -161,6 +168,7 @@ const ContentManagement = () => {
                       <td>{index + 1}</td>
                       <td>{blog.title}</td>
                       <td>{blog.author}</td>
+                      <td>{blog.createdAt}</td>
                       <td>
                         <span
                           className={`badge ${
@@ -177,7 +185,15 @@ const ContentManagement = () => {
                           <button className="btn btn-ghost btn-xs">
                             <FaEllipsisV />
                           </button>
-                          <div className="dropdown-content mt-2 p-2 w-48 bg-white shadow-lg rounded-md">
+                          <div className="dropdown-content z-50 mt-2 p-2 w-48 bg-white shadow-lg rounded-md">
+                            <button
+                              onClick={() => handleDetails(blog._id)}
+                              className="block w-full text-left btn btn-sm btn-danger mt-2 mb-2"
+                            >
+                              <span className="flex capitalize gap-x-1">
+                                <FaUserEdit /> Details
+                              </span>
+                            </button>
                             <button
                               onClick={() =>
                                 handleToggleStatus(blog._id, blog.status)
