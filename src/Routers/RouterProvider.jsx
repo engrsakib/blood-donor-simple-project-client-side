@@ -21,6 +21,7 @@ import AllDonations from "../components/Dashboard/Donor/AllDonations";
 import AllDonationsHome from "../components/Dashboard/Donor/AllDonationsHome";
 import Blogs from "../components/Dashboard/Donor/Blogs";
 import CreateBlogs from "../components/Dashboard/Donor/CreateBlogs";
+import ContentManagement from "../components/Dashboard/admin/ContentManagement";
 
 const router = createBrowserRouter([
   {
@@ -145,6 +146,16 @@ const router = createBrowserRouter([
           <Privete>
             <Admin>
               <AllUsers></AllUsers>
+            </Admin>
+          </Privete>
+        ),
+      },
+      {
+        path: "/dashboard/content-management",
+        element: (
+          <Privete>
+            <Admin>
+              <ContentManagement></ContentManagement>
             </Admin>
           </Privete>
         ),
