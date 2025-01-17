@@ -149,7 +149,7 @@ const AllUsers = () => {
           <Loading />
         ) : (
           <>
-            <div className="overflow-x-auto overflow-y-hidden">
+            <div className="overflow-x-auto min-h-screen border overflow-y-hidden">
               <table className="table w-full border-collapse border border-gray-200">
                 <thead>
                   <tr>

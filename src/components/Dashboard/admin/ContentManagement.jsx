@@ -64,16 +64,21 @@ const ContentManagement = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/blogs/${id}`, { method: "DELETE" })
-          .then((res) => res.json())
+        // Using Axios to send the DELETE request
+        axios
+          .delete(`http://localhost:5000/blogs/${id}`)
           .then(() => {
             Swal.fire("Deleted!", "Blog has been deleted.", "success");
-            refetch();
+            refetch(); // Refetch the data after deletion
           })
-          .catch((error) => console.error("Error deleting blog:", error));
+          .catch((error) => {
+            console.error("Error deleting blog:", error);
+            Swal.fire("Error", "Failed to delete the blog.", "error");
+          });
       }
     });
   };
+
 
   // Handle toggle status
  const handleToggleStatus = (id, status) => {
