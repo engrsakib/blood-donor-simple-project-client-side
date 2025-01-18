@@ -22,6 +22,7 @@ import AllDonationsHome from "../components/Dashboard/Donor/AllDonationsHome";
 import Blogs from "../components/Dashboard/Donor/Blogs";
 import CreateBlogs from "../components/Dashboard/Donor/CreateBlogs";
 import ContentManagement from "../components/Dashboard/admin/ContentManagement";
+import BlogsDetials from "../components/Dashboard/Donor/BlogsDetials";
 
 const router = createBrowserRouter([
   {
@@ -38,7 +39,11 @@ const router = createBrowserRouter([
         element: <AllDonationsHome></AllDonationsHome>,
       },
       {
-        path: "//blogs",
+        path: "/blogs/details/:id",
+        element: <BlogsDetials></BlogsDetials>,
+      },
+      {
+        path: "/blogs",
         element: <Blogs></Blogs>,
       },
       {
