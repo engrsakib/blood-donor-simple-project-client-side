@@ -11,12 +11,13 @@ import {
 import Loading from "../../Loading";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const ContentManagement = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
+  const navigate = useNavigate();
   // useQuery to fetch blogs data
   const {
     isLoading: isPending,
@@ -34,7 +35,7 @@ const ContentManagement = () => {
       }
     },
   });
-//   console.log(blogs)
+  //   console.log(blogs)
   // Filter blogs based on status
   const filteredBlogs = statusFilter
     ? blogs.filter((blog) => blog.status === statusFilter)
@@ -79,44 +80,42 @@ const ContentManagement = () => {
     });
   };
 
-
   // Handle toggle status
- const handleToggleStatus = (id, status) => {
-   Swal.fire({
-     title: "Are you sure?",
-     text: `This will ${
-       status === "published" ? "draft" : "publish"
-     } the blog.`,
-     icon: "warning",
-     showCancelButton: true,
-     confirmButtonText: status === "published" ? "Draft" : "Publish",
-   }).then((result) => {
-     if (result.isConfirmed) {
-       const newStatus = status === "published" ? "draft" : "published";
+  const handleToggleStatus = (id, status) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: `This will ${
+        status === "published" ? "draft" : "publish"
+      } the blog.`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: status === "published" ? "Draft" : "Publish",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newStatus = status === "published" ? "draft" : "published";
 
-       // Using Axios to send the PATCH request to the backend
-       axios
-         .patch(`http://localhost:5000/blogs/${id}`, { status: newStatus })
-         .then((response) => {
-           Swal.fire(
-             "Success!",
-             `Blog status updated to ${newStatus}.`,
-             "success"
-           );
-           refetch(); // Refetch data after status update
-         })
-         .catch((error) => {
-           console.error("Error updating status:", error);
-           Swal.fire("Error", "Failed to update blog status.", "error");
-         });
-     }
-   });
- };
+        // Using Axios to send the PATCH request to the backend
+        axios
+          .patch(`http://localhost:5000/blogs/${id}`, { status: newStatus })
+          .then((response) => {
+            Swal.fire(
+              "Success!",
+              `Blog status updated to ${newStatus}.`,
+              "success"
+            );
+            refetch(); // Refetch data after status update
+          })
+          .catch((error) => {
+            console.error("Error updating status:", error);
+            Swal.fire("Error", "Failed to update blog status.", "error");
+          });
+      }
+    });
+  };
 
-
-  const handleDetails = (id)=>{
-    console.log(id)
-  }
+  const handleDetails = (id) => {
+    navigate(`/blogs/details/${id}`);
+  };
 
   return (
     <>
