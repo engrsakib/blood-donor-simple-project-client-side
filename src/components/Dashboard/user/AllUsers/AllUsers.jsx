@@ -1,4 +1,3 @@
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import Swal from "sweetalert2";
 import {
@@ -18,8 +17,9 @@ const AllUsers = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const { users, refetch, isPending } = useGetusers();
+
   if (isPending) {
-    <Loading></Loading>;
+    return <Loading />;
   }
 
   // Filter users based on status
@@ -123,8 +123,14 @@ const AllUsers = () => {
 
   return (
     <>
-      <div className="container mx-auto p-4">
-        <h1 className="text-2xl font-bold mb-4">User Management</h1>
+      <Helmet>
+        <title>All Users</title>
+      </Helmet>
+
+      <div className="container mx-auto p-6">
+        <h1 className="text-2xl font-bold mb-6">User Management</h1>
+
+        {/* Filters */}
         <div className="mb-4 flex justify-between flex-col md:flex-row">
           <select
             value={statusFilter}
@@ -145,120 +151,98 @@ const AllUsers = () => {
             <option value={20}>20 per page</option>
           </select>
         </div>
-        {isPending ? (
-          <Loading />
-        ) : (
-          <>
-            <div className="overflow-x-auto min-h-screen border overflow-y-hidden">
-              <table className="table w-full border-collapse border border-gray-200">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginatedUsers.map((user) => (
-                    <tr key={user._id}>
-                      <td>
-                        <div className="flex items-center gap-3">
-                          <div className="avatar">
-                            <div className="mask mask-squircle h-12 w-12">
-                              <img src={user.photoUrl} alt="Avatar" />
-                            </div>
-                          </div>
-                          <div>
-                            <div className="font-bold">{user.name}</div>
-                            <div className="text-sm opacity-50">
-                              {user.email}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td>{user.role}</td>
-                      <td>
-                        <span
-                          className={`badge ${
-                            user.status === "active"
-                              ? "badge-success"
-                              : "badge-error"
-                          }`}
-                        >
-                          {user.status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="dropdown dropdown-left z-50">
-                          <button className="btn btn-ghost btn-xs">
-                            <FaEllipsisV />
-                          </button>
-                          <div className="dropdown-content mt-2 p-2 w-48 bg-white shadow-lg rounded-md">
-                            <button
-                              onClick={() =>
-                                handleToggleStatus(user._id, user.status)
-                              }
-                              className={`block w-full text-left btn btn-sm ${
-                                user.status === "active"
-                                  ? "btn-warning"
-                                  : "btn-success"
-                              }`}
-                            >
-                              {user.status === "active" ? (
-                                <span className="flex gap-x-1 capitalize">
-                                  <FaUserLock /> Block
-                                </span>
-                              ) : (
-                                <span className="flex gap-x-1 capitalize">
-                                  <FaUserCheck /> Unblock
-                                </span>
-                              )}
-                            </button>
-                            <button
-                              onClick={() => handleChangeRole(user._id)}
-                              className="block w-full text-left btn btn-sm btn-info mt-2"
-                            >
-                              <span className="flex capitalize gap-x-1">
-                                <FaUserEdit /> Change Role
-                              </span>
-                            </button>
-                            <button
-                              onClick={() => handleDelete(user._id)}
-                              className="block w-full text-left btn btn-sm btn-danger mt-2"
-                            >
-                              <span className="flex capitalize gap-x-1">
-                                <FaTrash /> Delete
-                              </span>
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {/* Pagination Controls */}
-            <div className="mt-4 flex justify-center">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handlePageChange(index + 1)}
-                  className={`btn btn-sm mx-1 ${
-                    currentPage === index + 1 ? "btn-primary" : "btn-ghost"
-                  }`}
+
+        {/* Table */}
+        <div className="overflow-x-auto border rounded-lg shadow-lg">
+          <table className="table-auto w-full text-left bg-white">
+            <thead className="bg-gray-200 text-gray-700">
+              <tr>
+                <th className="py-3 px-6">Name</th>
+                <th className="py-3 px-6">Role</th>
+                <th className="py-3 px-6">Status</th>
+                <th className="py-3 px-6">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedUsers.map((user, index) => (
+                <tr
+                  key={user._id}
+                  className={`${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-gray-100`}
                 >
-                  {index + 1}
-                </button>
+                  <td className="py-3 px-6">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 mr-3">
+                        <img
+                          src={user.photoUrl}
+                          alt="Avatar"
+                          className="w-full h-full rounded-full"
+                        />
+                      </div>
+                      <div>
+                        <p className="font-medium">{user.name}</p>
+                        <p className="text-sm text-gray-500">{user.email}</p>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="py-3 px-6">{user.role}</td>
+                  <td className="py-3 px-6">
+                    <span
+                      className={`px-3 py-1 text-sm font-medium rounded-full ${
+                        user.status === "active"
+                          ? "bg-green-100 text-green-600"
+                          : "bg-red-100 text-red-600"
+                      }`}
+                    >
+                      {user.status}
+                    </span>
+                  </td>
+                  <td className="py-3 px-6">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() =>
+                          handleToggleStatus(user._id, user.status)
+                        }
+                        className="btn btn-xs btn-warning"
+                      >
+                        {user.status === "active" ? "Block" : "Unblock"}
+                      </button>
+                      <button
+                        onClick={() => handleChangeRole(user._id)}
+                        className="btn btn-xs btn-info"
+                      >
+                        Change Role
+                      </button>
+                      <button
+                        onClick={() => handleDelete(user._id)}
+                        className="btn btn-xs btn-danger"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
               ))}
-            </div>
-          </>
-        )}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Pagination */}
+        <div className="mt-6 flex justify-center">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`btn btn-sm mx-1 ${
+                currentPage === index + 1 ? "btn-primary" : "btn-ghost"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
-      <Helmet>
-        <title>All users</title>
-      </Helmet>
     </>
   );
 };

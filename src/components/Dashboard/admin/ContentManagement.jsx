@@ -11,17 +11,18 @@ import {
 import Loading from "../../Loading";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const ContentManagement = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const navigate = useNavigate();
+
   // useQuery to fetch blogs data
   const {
     isLoading: isPending,
-    data: blogs = [],
+    data: blogs = [], // Default empty array
     refetch,
   } = useQuery({
     queryKey: ["blogs"],
@@ -35,11 +36,13 @@ const ContentManagement = () => {
       }
     },
   });
-  //   console.log(blogs)
+
   // Filter blogs based on status
-  const filteredBlogs = statusFilter
-    ? blogs.filter((blog) => blog.status === statusFilter)
-    : blogs;
+  const filteredBlogs = Array.isArray(blogs)
+    ? statusFilter
+      ? blogs.filter((blog) => blog.status === statusFilter)
+      : blogs
+    : [];
 
   // Pagination Logic
   const totalItems = filteredBlogs.length;
@@ -65,12 +68,11 @@ const ContentManagement = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        // Using Axios to send the DELETE request
         axios
           .delete(`http://localhost:5000/blogs/${id}`)
           .then(() => {
             Swal.fire("Deleted!", "Blog has been deleted.", "success");
-            refetch(); // Refetch the data after deletion
+            refetch();
           })
           .catch((error) => {
             console.error("Error deleting blog:", error);
@@ -94,16 +96,15 @@ const ContentManagement = () => {
       if (result.isConfirmed) {
         const newStatus = status === "published" ? "draft" : "published";
 
-        // Using Axios to send the PATCH request to the backend
         axios
           .patch(`http://localhost:5000/blogs/${id}`, { status: newStatus })
-          .then((response) => {
+          .then(() => {
             Swal.fire(
               "Success!",
               `Blog status updated to ${newStatus}.`,
               "success"
             );
-            refetch(); // Refetch data after status update
+            refetch();
           })
           .catch((error) => {
             console.error("Error updating status:", error);
@@ -149,107 +150,111 @@ const ContentManagement = () => {
           </select>
         </div>
 
-        {/* Loading indicator */}
         {isPending ? (
           <Loading />
         ) : (
-          <>
-            <div className="overflow-x-auto min-h-screen border overflow-y-hidden">
-              <table className="table w-full border-collapse border border-gray-200">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Author</th>
-                    <th>created Date</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {paginatedBlogs.map((blog, index) => (
-                    <tr key={blog._id}>
-                      <td>{index + 1}</td>
-                      <td>{blog.title}</td>
-                      <td>{blog.author}</td>
-                      <td>{blog.createdAt}</td>
-                      <td>
-                        <span
-                          className={`badge ${
+          <div className="overflow-x-auto min-h-screen border overflow-y-hidden rounded-lg shadow-md bg-white">
+            <table className="table-auto w-full border-collapse text-left">
+              <thead>
+                <tr className="bg-gray-100 border-b">
+                  <th className="py-4 px-6 font-medium text-gray-600">#</th>
+                  <th className="py-4 px-6 font-medium text-gray-600">Title</th>
+                  <th className="py-4 px-6 font-medium text-gray-600">
+                    Author
+                  </th>
+                  <th className="py-4 px-6 font-medium text-gray-600">
+                    Created Date
+                  </th>
+                  <th className="py-4 px-6 font-medium text-gray-600">
+                    Status
+                  </th>
+                  <th className="py-4 px-6 font-medium text-gray-600">
+                    Actions
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {paginatedBlogs.map((blog, index) => (
+                  <tr
+                    key={blog._id}
+                    className={`border-b ${
+                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                    } hover:bg-gray-100`}
+                  >
+                    <td className="py-4 px-6 text-gray-700">{index + 1}</td>
+                    <td className="py-4 px-6 text-gray-700">{blog.title}</td>
+                    <td className="py-4 px-6 text-gray-700">{blog.author}</td>
+                    <td className="py-4 px-6 text-gray-700">
+                      {blog.createdAt}
+                    </td>
+                    <td className="py-4 px-6">
+                      <span
+                        className={`px-3 py-1 rounded-full text-sm font-medium ${
+                          blog.status === "published"
+                            ? "bg-green-100 text-green-600"
+                            : "bg-red-100 text-red-600"
+                        }`}
+                      >
+                        {blog.status}
+                      </span>
+                    </td>
+                    <td className="py-4 px-6">
+                      <div className="flex items-center space-x-4">
+                        <button
+                          onClick={() => handleDetails(blog._id)}
+                          className="flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded shadow hover:bg-blue-600"
+                        >
+                          <FaUserEdit className="mr-2" /> Details
+                        </button>
+                        <button
+                          onClick={() =>
+                            handleToggleStatus(blog._id, blog.status)
+                          }
+                          className={`flex items-center px-3 py-2 text-sm font-medium rounded shadow ${
                             blog.status === "published"
-                              ? "badge-success"
-                              : "badge-error"
+                              ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                              : "bg-green-500 text-white hover:bg-green-600"
                           }`}
                         >
-                          {blog.status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="dropdown dropdown-left z-50">
-                          <button className="btn btn-ghost btn-xs">
-                            <FaEllipsisV />
-                          </button>
-                          <div className="dropdown-content z-50 mt-2 p-2 w-48 bg-white shadow-lg rounded-md">
-                            <button
-                              onClick={() => handleDetails(blog._id)}
-                              className="block w-full text-left btn btn-sm btn-danger mt-2 mb-2"
-                            >
-                              <span className="flex capitalize gap-x-1">
-                                <FaUserEdit /> Details
-                              </span>
-                            </button>
-                            <button
-                              onClick={() =>
-                                handleToggleStatus(blog._id, blog.status)
-                              }
-                              className={`block w-full text-left btn btn-sm ${
-                                blog.status === "published"
-                                  ? "btn-warning"
-                                  : "btn-success"
-                              }`}
-                            >
-                              {blog.status === "published" ? (
-                                <span className="flex gap-x-1 capitalize">
-                                  <FaUserLock /> Draft
-                                </span>
-                              ) : (
-                                <span className="flex gap-x-1 capitalize">
-                                  <FaUserCheck /> Publish
-                                </span>
-                              )}
-                            </button>
-                            <button
-                              onClick={() => handleDelete(blog._id)}
-                              className="block w-full text-left btn btn-sm btn-danger mt-2"
-                            >
-                              <span className="flex capitalize gap-x-1">
-                                <FaTrash /> Delete
-                              </span>
-                            </button>
-                          </div>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {/* Pagination Controls */}
-            <div className="mt-4 flex justify-center">
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => handlePageChange(index + 1)}
-                  className={`btn btn-sm mx-1 ${
-                    currentPage === index + 1 ? "btn-primary" : "btn-ghost"
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
-            </div>
-          </>
+                          {blog.status === "published" ? (
+                            <>
+                              <FaUserLock className="mr-2" /> Draft
+                            </>
+                          ) : (
+                            <>
+                              <FaUserCheck className="mr-2" /> Publish
+                            </>
+                          )}
+                        </button>
+                        <button
+                          onClick={() => handleDelete(blog._id)}
+                          className="flex items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded shadow hover:bg-red-600"
+                        >
+                          <FaTrash className="mr-2" /> Delete
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
+
+        {/* Pagination Controls */}
+        <div className="mt-4 flex justify-center">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index}
+              onClick={() => handlePageChange(index + 1)}
+              className={`btn btn-sm mx-1 ${
+                currentPage === index + 1 ? "btn-primary" : "btn-ghost"
+              }`}
+            >
+              {index + 1}
+            </button>
+          ))}
+        </div>
       </div>
     </>
   );
