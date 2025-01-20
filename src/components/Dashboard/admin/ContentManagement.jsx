@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import Swal from "sweetalert2";
 import {
@@ -12,13 +12,16 @@ import Loading from "../../Loading";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../../../provider/AuthProvider";
+import useGetAllUsers from "../user/AllUsers/useGetAllUsers";
 
 const ContentManagement = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const navigate = useNavigate();
-
+  const {user} = useContext(AuthContext);
+  const { users } = useGetAllUsers(user);
   // useQuery to fetch blogs data
   const {
     isLoading: isPending,
@@ -60,30 +63,36 @@ const ContentManagement = () => {
 
   // Handle delete blog
   const handleDelete = (id) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "This action will permanently delete the blog.",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .delete(`http://localhost:5000/blogs/${id}`)
-          .then(() => {
-            Swal.fire("Deleted!", "Blog has been deleted.", "success");
-            refetch();
-          })
-          .catch((error) => {
-            console.error("Error deleting blog:", error);
-            Swal.fire("Error", "Failed to delete the blog.", "error");
-          });
-      }
-    });
+    if (users.role != "admin"){
+      return Swal.fire("Error", "Only admin can do this operations", "error");
+    }
+      Swal.fire({
+        title: "Are you sure?",
+        text: "This action will permanently delete the blog.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios
+            .delete(`http://localhost:5000/blogs/${id}`)
+            .then(() => {
+              Swal.fire("Deleted!", "Blog has been deleted.", "success");
+              refetch();
+            })
+            .catch((error) => {
+              console.error("Error deleting blog:", error);
+              Swal.fire("Error", "Failed to delete the blog.", "error");
+            });
+        }
+      });
   };
 
   // Handle toggle status
   const handleToggleStatus = (id, status) => {
+    if (users.role != "admin") {
+      return Swal.fire("Error", "Only admin can do this operations", "error");
+    }
     Swal.fire({
       title: "Are you sure?",
       text: `This will ${
