@@ -24,6 +24,7 @@ import CreateBlogs from "../components/Dashboard/Donor/CreateBlogs";
 import ContentManagement from "../components/Dashboard/admin/ContentManagement";
 import BlogsDetials from "../components/Dashboard/Donor/BlogsDetials";
 import Search from "../components/Dashboard/Donor/Search";
+import Foundme from "../components/Dashboard/user/AllUsers/Foundme";
 
 const router = createBrowserRouter([
   {
@@ -45,7 +46,27 @@ const router = createBrowserRouter([
       },
       {
         path: "/blogs/details/:id",
-        element: <BlogsDetials></BlogsDetials>,
+        element: (
+          <Privete>
+            <BlogsDetials></BlogsDetials>
+          </Privete>
+        ),
+      },
+      {
+        path: "/fundme",
+        element: (
+          <Privete>
+            <Foundme></Foundme>
+          </Privete>
+        ),
+      },
+      {
+        path: "/blogs/details/:id",
+        element: (
+          <Privete>
+            <BlogsDetials></BlogsDetials>
+          </Privete>
+        ),
       },
       {
         path: "/blogs",

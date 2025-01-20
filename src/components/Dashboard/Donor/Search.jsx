@@ -22,12 +22,12 @@ const Search = () => {
   const { users } = useGetAllUsers(user);
 
   const navigate = useNavigate();
-  
-  const [selectedDistrict, setSelectedDistrict] = useState("a");
-  const [selectedBloodGroup, setSelectedBloodGroup] = useState("a");
+
+  const [selectedDistrict, setSelectedDistrict] = useState("district");
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState("blood");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-    console.log({selectedBloodGroup, selectedDistrict})
+  console.log({ selectedBloodGroup, selectedDistrict });
 
   const {
     isLoading: isPending,
@@ -47,7 +47,7 @@ const Search = () => {
       return response.data;
     },
   });
-  
+
   const handleDistrictChange = (e) => {
     setSelectedDistrict(e.target.value);
     setCurrentPage(1);
@@ -82,7 +82,7 @@ const Search = () => {
       <div className="min-h-screen w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
         <div>
           <h1 className="text-2xl font-bold text-center mb-6">
-            All Donation Requests ({donations.length})
+            All Donation Requests ({response.length})
           </h1>
 
           <div className="flex flex-row justify-end items-center mb-4 gap-4">
@@ -127,41 +127,51 @@ const Search = () => {
             </select>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="table table-zebra w-full">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Recipient Name</th>
-                  <th>Blood Group</th>
-                  <th>Status</th>
-                  <th>Donation Date</th>
-                  <th>District</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {response.map((donation, index) => (
-                  <tr key={donation._id}>
-                    <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                    <td>{donation?.recipientName}</td>
-                    <td>{donation?.bloodGroup}</td>
-                    <td>{donation?.status}</td>
-                    <td>{donation?.donationDate}</td>
-                    <td>{donation?.district}</td>
-                    <td className="flex flex-wrap gap-2">
-                      <button
-                        className="btn btn-sm btn-primary"
-                        onClick={() => handleDetailsClick(donation._id)}
-                      >
-                        Details
-                      </button>
-                    </td>
+          {response.length ? (
+            <div className="overflow-x-auto">
+              <table className="table table-zebra w-full">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Recipient Name</th>
+                    <th>Blood Group</th>
+                    <th>Status</th>
+                    <th>Donation Date</th>
+                    <th>District</th>
+                    <th>Actions</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {response.map((donation, index) => (
+                    <tr key={donation._id}>
+                      <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                      <td>{donation?.recipientName}</td>
+                      <td>{donation?.bloodGroup}</td>
+                      <td>{donation?.status}</td>
+                      <td>{donation?.donationDate}</td>
+                      <td>{donation?.district}</td>
+                      <td className="flex flex-wrap gap-2">
+                        <button
+                          className="btn btn-sm btn-primary"
+                          onClick={() => handleDetailsClick(donation._id)}
+                        >
+                          Details
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <div className="flex justify-center items-center">
+              <img
+                src="https://i.ibb.co.com/J5R5d7X/flat-design-no-data-illustration-23-2150527139.jpg"
+                alt="response"
+                className="w-2/4 object-cover mx-auto"
+              />
+            </div>
+          )}
         </div>
 
         <div className="flex justify-center mt-4 sticky bottom-0 bg-base-200 py-4">
