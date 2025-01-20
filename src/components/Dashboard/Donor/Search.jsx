@@ -23,8 +23,8 @@ const Search = () => {
 
   const navigate = useNavigate();
 
-  const [selectedDistrict, setSelectedDistrict] = useState("district");
-  const [selectedBloodGroup, setSelectedBloodGroup] = useState("blood");
+  const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedBloodGroup, setSelectedBloodGroup] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   console.log({ selectedBloodGroup, selectedDistrict });
@@ -33,6 +33,7 @@ const Search = () => {
     isLoading: isPending,
     data: response = {},
     refetch,
+    
   } = useQuery({
     queryKey: [
       "donations-key-search",
@@ -40,9 +41,14 @@ const Search = () => {
       selectedBloodGroup,
       currentPage,
     ],
+    enabled: !!selectedDistrict || !!selectedBloodGroup,
     queryFn: async () => {
-      const response = await axios.get(
-        `http://localhost:5000/all-donations/filter?district=${selectedDistrict}&bloodGroup=${selectedBloodGroup}`
+      const response = await axios.post(
+        `http://localhost:5000/all-donations/filter`,
+        {
+          bloodGroup: selectedBloodGroup,
+          district: selectedDistrict
+        }
       );
       return response.data;
     },

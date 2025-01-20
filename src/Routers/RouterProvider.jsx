@@ -25,6 +25,7 @@ import ContentManagement from "../components/Dashboard/admin/ContentManagement";
 import BlogsDetials from "../components/Dashboard/Donor/BlogsDetials";
 import Search from "../components/Dashboard/Donor/Search";
 import Foundme from "../components/Dashboard/user/AllUsers/Foundme";
+import AddFund from "../components/Dashboard/user/AllUsers/AddFund";
 
 const router = createBrowserRouter([
   {
@@ -57,6 +58,14 @@ const router = createBrowserRouter([
         element: (
           <Privete>
             <Foundme></Foundme>
+          </Privete>
+        ),
+      },
+      {
+        path: "/fundme/add-fund",
+        element: (
+          <Privete>
+            <AddFund></AddFund>
           </Privete>
         ),
       },
