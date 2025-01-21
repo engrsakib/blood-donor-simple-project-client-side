@@ -300,7 +300,7 @@ const Search = () => {
   const [selectedBloodGroup, setSelectedBloodGroup] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  console.log({ selectedBloodGroup, selectedDistrict });
+  // console.log({ selectedBloodGroup, selectedDistrict });
 
   const {
     isLoading: isPending,
@@ -327,6 +327,7 @@ const Search = () => {
     },
   });
 
+  // console.log(response)
   const handleDistrictChange = (e) => {
     setSelectedDistrict(e.target.value);
     setCurrentPage(1);
@@ -345,9 +346,7 @@ const Search = () => {
     refetch();
   };
 
-  const handleDetailsClick = (donation) => {
-    navigate(`/dashboard/donation/details/${donation}`);
-  };
+  
 
   if (isPending) return <Loading />;
 
@@ -412,31 +411,31 @@ const Search = () => {
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th>Recipient Name</th>
+                    <th>Photo</th>
+                    <th>Name</th>
                     <th>Blood Group</th>
-                    <th>Status</th>
-                    <th>Donation Date</th>
+                    <th>Mail</th>
                     <th>District</th>
-                    <th>Actions</th>
+                    <th>Upazila</th>
                   </tr>
                 </thead>
                 <tbody>
                   {response.map((donation, index) => (
                     <tr key={donation._id}>
                       <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                      <td>{donation?.recipientName}</td>
-                      <td>{donation?.bloodGroup}</td>
-                      <td>{donation?.status}</td>
-                      <td>{donation?.donationDate}</td>
-                      <td>{donation?.district}</td>
-                      <td className="flex flex-wrap gap-2">
-                        <button
-                          className="btn btn-sm btn-primary"
-                          onClick={() => handleDetailsClick(donation._id)}
-                        >
-                          Details
-                        </button>
+                      <td>
+                        <img
+                          className="w-20 h-20 rounded-full object-cover"
+                          src={donation?.photoUrl}
+                          alt=""
+                        />
                       </td>
+                      <td>{donation?.name}</td>
+                      <td>{donation?.bloodGroup}</td>
+                      <td>{donation?.email}</td>
+                      <td>{donation?.district}</td>
+                      <td>{donation?.upazila}</td>
+            
                     </tr>
                   ))}
                 </tbody>
