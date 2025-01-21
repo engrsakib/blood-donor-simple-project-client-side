@@ -23,6 +23,7 @@
     "react": "^18.3.1",
     "react-awesome-reveal": "^4.2.14",
     "react-awesome-slider": "^4.1.0",
+    "react-custom-scrollbars-2": "^4.5.0",
     "react-datepicker": "^7.5.0",
     "react-dom": "^18.3.1",
     "react-helmet": "^6.1.0",
@@ -35,7 +36,8 @@
     "react-simple-typewriter": "^5.0.1",
     "react-sweetalert2": "^0.6.0",
     "react-toastify": "^10.0.6",
-    "react-tooltip": "^5.28.0"
+    "react-tooltip": "^5.28.0",
+    "simplebar-react": "^3.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",

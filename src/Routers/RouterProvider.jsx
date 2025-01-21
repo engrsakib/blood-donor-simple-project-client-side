@@ -62,14 +62,6 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/fundme/add-fund",
-        element: (
-          <Privete>
-            <AddFund></AddFund>
-          </Privete>
-        ),
-      },
-      {
         path: "/blogs/details/:id",
         element: (
           <Privete>
@@ -181,6 +173,14 @@ const router = createBrowserRouter([
         ),
       },
       {
+      path: "/dashboard/fundme/add-fund",
+        element: (
+          <Privete>
+            <AddFund></AddFund>
+          </Privete>
+        ),
+      },
+      {
         path: "/dashboard/all-users",
         element: (
           <Privete>
@@ -190,6 +190,7 @@ const router = createBrowserRouter([
           </Privete>
         ),
       },
+
       {
         path: "/dashboard/content-management",
         element: (
