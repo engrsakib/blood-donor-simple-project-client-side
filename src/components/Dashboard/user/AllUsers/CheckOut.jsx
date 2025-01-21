@@ -1,12 +1,42 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import Swal from "sweetalert2";
 import { loadStripe } from "@stripe/stripe-js";
-import { CardElement, Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  CardElement,
+  Elements,
+  useElements,
+  useStripe,
+} from "@stripe/react-stripe-js";
 
 import "../../../../common.css";
+import axios from "axios";
+import useGetAllUsers from "./useGetAllUsers";
+import { AuthContext } from "../../../../provider/AuthProvider";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const CheckOut = ({ TK }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const [clientSecret, setClientSecret] = useState("");
+  const { user } = useContext(AuthContext);
+  const { users, refetch, isPending } = useGetAllUsers(user);
+  const navigate = useNavigate();
+  const getPaymentIntent = async () => {
+    const { data } = await axios.post(
+      "http://localhost:5000/create-payment-intent",
+      {
+        amount: TK,
+      }
+    );
+    setClientSecret(data);
+  };
+  // console.log(clientSecret);
+
+  useEffect(() => {
+    if (TK !== null) {
+      getPaymentIntent();
+    }
+  }, [TK]);
 
   const handleSubmit = async (event) => {
     // Block native form submission.
@@ -38,6 +68,30 @@ const CheckOut = ({ TK }) => {
     } else {
       console.log("[PaymentMethod]", paymentMethod);
     }
+    // confrem payment
+   const {paymentIntent} = stripe
+      .confirmCardPayment(clientSecret, {
+        payment_method: {
+          card: card,
+          billing_details: {
+            name: users?.name,
+            email: users?.email,
+          },
+        },
+      })
+      
+      if(paymentIntent.status === "succeeded"){
+       const response = axios.post("http://localhost:5000/users/add-fund", {
+          email: users?.email,
+          amount: TK,
+          name: users?.name,
+          transaction: paymentIntent?.id,
+        });
+        if(response){
+          Swal.fire("Success", "Payment successful", "success");
+          navigate("/fundme");
+        }
+      }
   };
 
   return (
@@ -61,9 +115,10 @@ const CheckOut = ({ TK }) => {
       <button
         className="btn btn-outline btn-wide btn-info"
         type="submit"
-        disabled={!stripe}
+        disabled={!clientSecret || !stripe || !TK}
+        label={`Pay ${TK}`}
       >
-        Pay {TK}
+        Pay {TK}$
       </button>
     </form>
   );
