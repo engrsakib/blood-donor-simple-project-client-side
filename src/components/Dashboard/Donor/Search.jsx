@@ -297,20 +297,20 @@ const Search = () => {
   const navigate = useNavigate();
 
   const [selectedDistrict, setSelectedDistrict] = useState("");
+  const [selectedUpazila, setSelectedUpazila] = useState("");
   const [selectedBloodGroup, setSelectedBloodGroup] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
-  // console.log({ selectedBloodGroup, selectedDistrict });
 
   const {
     isLoading: isPending,
     data: response = {},
     refetch,
-    
   } = useQuery({
     queryKey: [
       "donations-key-search",
       selectedDistrict,
+      selectedUpazila,
       selectedBloodGroup,
       currentPage,
     ],
@@ -320,33 +320,26 @@ const Search = () => {
         `http://localhost:5000/all-donations/filter`,
         {
           bloodGroup: selectedBloodGroup,
-          district: selectedDistrict
+          district: selectedDistrict,
+          upazila: selectedUpazila,
         }
       );
       return response.data;
     },
   });
 
-  // console.log(response)
   const handleDistrictChange = (e) => {
-    setSelectedDistrict(e.target.value);
-    setCurrentPage(1);
-    refetch();
+    const district = e.target.value;
+    setSelectedDistrict(district);
+    setSelectedUpazila("");
   };
 
-  const handleBloodGroupChange = (e) => {
-    setSelectedBloodGroup(e.target.value);
+  const handleSearch = () => {
     setCurrentPage(1);
-    refetch();
+    if (selectedDistrict || selectedBloodGroup || selectedUpazila) {
+      refetch();
+    }
   };
-
-  const handleItemsPerPageChange = (e) => {
-    setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1);
-    refetch();
-  };
-
-  
 
   if (isPending) return <Loading />;
 
@@ -378,11 +371,27 @@ const Search = () => {
               ))}
             </select>
 
+            {/* উপজেলা সিলেক্ট */}
+            <select
+              className="select select-bordered w-40"
+              value={selectedUpazila}
+              onChange={(e) => setSelectedUpazila(e.target.value)}
+              disabled={!selectedDistrict} 
+            >
+              <option value="">Select Upazila</option>
+              {selectedDistrict &&
+                districtUpazilas[selectedDistrict].map((upazila) => (
+                  <option key={upazila} value={upazila}>
+                    {upazila}
+                  </option>
+                ))}
+            </select>
+
             {/* ব্লাড গ্রুপ সিলেক্ট */}
             <select
               className="select select-bordered w-40"
               value={selectedBloodGroup}
-              onChange={handleBloodGroupChange}
+              onChange={(e) => setSelectedBloodGroup(e.target.value)}
             >
               <option value="">Select Blood Group</option>
               {bloodGroups.map((group) => (
@@ -392,17 +401,10 @@ const Search = () => {
               ))}
             </select>
 
-            {/* পেজিং অপশন */}
-            <select
-              className="select select-bordered w-40"
-              value={itemsPerPage}
-              onChange={handleItemsPerPageChange}
-            >
-              <option value={5}>5 per page</option>
-              <option value={10}>10 per page</option>
-              <option value={15}>15 per page</option>
-              <option value={20}>20 per page</option>
-            </select>
+            {/* সার্চ বাটন */}
+            <button className="btn btn-primary" onClick={handleSearch}>
+              Search
+            </button>
           </div>
 
           {response.length ? (
@@ -435,7 +437,6 @@ const Search = () => {
                       <td>{donation?.email}</td>
                       <td>{donation?.district}</td>
                       <td>{donation?.upazila}</td>
-            
                     </tr>
                   ))}
                 </tbody>

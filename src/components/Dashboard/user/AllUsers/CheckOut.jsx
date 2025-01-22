@@ -33,7 +33,7 @@ const CheckOut = ({ TK }) => {
   // console.log(clientSecret);
 
   useEffect(() => {
-    if (TK !== null) {
+    if (TK !== null && TK !== undefined && TK !== "" && TK > 0) {
       getPaymentIntent();
     }
   }, [TK]);
@@ -69,7 +69,7 @@ const CheckOut = ({ TK }) => {
       console.log("[PaymentMethod]", paymentMethod);
     }
     // confrem payment
-   const {paymentIntent} = stripe
+   const {paymentIntent} = await stripe
       .confirmCardPayment(clientSecret, {
         payment_method: {
           card: card,
@@ -79,13 +79,15 @@ const CheckOut = ({ TK }) => {
           },
         },
       })
-      
+      console.log(paymentIntent.status);
       if(paymentIntent.status === "succeeded"){
        const response = axios.post("http://localhost:5000/users/add-fund", {
           email: users?.email,
-          amount: TK,
+          amount: Number(TK),
           name: users?.name,
           transaction: paymentIntent?.id,
+          date: new Date().toLocaleString(),
+          time: new Date().toLocaleTimeString("en-GB", { hour12: true }),
         });
         if(response){
           Swal.fire("Success", "Payment successful", "success");
