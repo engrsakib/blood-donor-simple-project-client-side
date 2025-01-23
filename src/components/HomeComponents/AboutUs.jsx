@@ -58,7 +58,10 @@ const AboutUs = () => {
           </div>
 
           {/* About Us Button */}
-          <Link to={`/donations`} className="btn btn-primary mt-5 px-6 py-2">
+          <Link
+            to={`/donationrequests`}
+            className="btn btn-primary mt-5 px-6 py-2"
+          >
             Donation Requests
           </Link>
         </div>

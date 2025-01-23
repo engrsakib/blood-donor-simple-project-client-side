@@ -29,7 +29,9 @@ const Banner = () => {
                 <Link to={`/auth/register`} className="btn btn-primary">
                   Join as a donor
                 </Link>
-                <Link to={"/search"} className="btn btn-secondary">Search Donors</Link>
+                <Link to={"/searchdonor"} className="btn btn-secondary">
+                  Search Donors
+                </Link>
               </div>
             </div>
           </div>
