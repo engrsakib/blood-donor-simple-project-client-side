@@ -38,7 +38,9 @@ const Dashboard = () => {
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${
             isActive ? "btn-active" : ""
-          } ${users?.role == "donor" && "hidden"}`
+          } ${
+            (users?.role == "donor" || users?.role == "volunteer") && "hidden"
+          }`
         }
       >
         All users
@@ -63,8 +65,6 @@ const Dashboard = () => {
       >
         Content Management
       </NavLink>
-
-      
     </>
   );
 
