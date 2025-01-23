@@ -152,46 +152,59 @@ const Dashboard = () => {
               >
                 profile
               </Link>
+              <Link
+                to={"/"}
+                className="btn btn-outline bg-white btn-wide mt-1"
+              >
+                Go to website
+              </Link>
             </section>
             {/* user icons and profile end */}
 
-            {/* admin Dashboard start*/}
-            {(users.role == "admin" || users.role == "volunteer") && (
-              <section className="mt-2">
-                {/* icons */}
-                <div className="flex justify-start items-center gap-3 text-white text-xl">
-                  <RiAdminFill />{" "}
-                  <h4 className="capitalize">
-                    {users.role === "admin"
-                      ? "admin"
-                      : users.role === "volunteer"
-                      ? "volunteer"
-                      : "donor"}
-                  </h4>
-                </div>
-                {/* menue */}
-                <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
-                  {adminDashboard}
-                </menu>
-                {/* menue */}
-              </section>
-            )}
-            {/* admin Dashboard end*/}
+            {/* menu start */}
+            <section className="mt-2 flex flex-col justify-between items-center gap-y-16">
+              {/* user and admin dashboard start */}
+              <div>
+                {/* admin Dashboard start*/}
+                {(users.role == "admin" || users.role == "volunteer") && (
+                  <section className="mt-2">
+                    {/* icons */}
+                    <div className="flex justify-start items-center gap-3 text-white text-xl">
+                      <RiAdminFill />{" "}
+                      <h4 className="capitalize">
+                        {users.role === "admin"
+                          ? "admin"
+                          : users.role === "volunteer"
+                          ? "volunteer"
+                          : "donor"}
+                      </h4>
+                    </div>
+                    {/* menue */}
+                    <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
+                      {adminDashboard}
+                    </menu>
+                    {/* menue */}
+                  </section>
+                )}
+                {/* admin Dashboard end*/}
 
-            <section className="mt-2">
-              {/* icons */}
-              <div className="flex justify-start items-center gap-3 text-white text-xl">
-                <RiAdminFill />{" "}
-                <h4 className="capitalize">
-                  donor
-                </h4>
+                <section className="mt-2">
+                  {/* icons */}
+                  <div className="flex justify-start items-center gap-3 text-white text-xl">
+                    <RiAdminFill /> <h4 className="capitalize">donor</h4>
+                  </div>
+                  {/* menue */}
+                  <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
+                    {donorMenu}
+                  </menu>
+                  {/* menue */}
+                </section>
               </div>
-              {/* menue */}
-              <menu className="mt-1 flex flex-col gap-y-2 justify-center items-center">
-                {donorMenu}
-              </menu>
-              {/* menue */}
+              {/* user and admin dashboard end */}
+              {/* all section start */}
+              {/* all section end */}
             </section>
+            {/* menu start */}
           </ul>
         </div>
         <Helmet>

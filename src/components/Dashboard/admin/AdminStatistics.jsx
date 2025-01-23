@@ -4,12 +4,14 @@ import { FaUsers, FaHandHoldingHeart, FaTint } from "react-icons/fa";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useGetusers from "../user/AllUsers/useGetusers";
 import useGetallDonations from "../Donations/useGetallDonations";
+import useGetTaka from "../user/AllUsers/useGetTaka";
 
 const AdminStatistics = () => {
   const { user, dark } = useContext(AuthContext);
-  const { users, refetch, isPending } = useGetusers();
+  const { users,  } = useGetusers();
   const { donations } = useGetallDonations(); 
-  
+  const { TK, refetch, isPending } = useGetTaka();
+  refetch();
   // Fixed data
   const stats = [
     {
@@ -19,7 +21,7 @@ const AdminStatistics = () => {
     },
     {
       title: "Total Funding",
-      count: "$23,892",
+      count: TK.total,
       icon: <FaHandHoldingHeart className="text-4xl text-secondary" />,
     },
     {
