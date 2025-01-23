@@ -340,7 +340,7 @@ const MyDonationEdit = () => {
     queryKey: ["donations", id],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:5000/donations/edit/${id}`
+        `https://blood-donation-server-liard.vercel.app/donations/edit/${id}`
       );
       return response.data;
     },
@@ -361,7 +361,7 @@ const MyDonationEdit = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:5000/donations/edit/${id}`,
+        `https://blood-donation-server-liard.vercel.app/donations/edit/${id}`,
         formData
       );
       if (response) {

@@ -3,20 +3,20 @@ import axios from "axios";
 
 const useGetAllUsers = (user) => {
   const {
-    isLoading: isPending, 
+    isLoading: isPending,
     data: users = [],
     refetch,
   } = useQuery({
     queryKey: ["users", user?.email],
     queryFn: async () => {
       if (!user?.email) {
-        return []; 
+        return [];
       }
       try {
         const response = await axios.get(
-          `http://localhost:5000/users/${user?.email}`
+          `https://blood-donation-server-liard.vercel.app/users/${user?.email}`
         );
-        return response.data; 
+        return response.data;
       } catch (error) {
         console.error("Error fetching users:", error);
         return [];

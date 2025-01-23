@@ -11,7 +11,7 @@ const Foundme = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const { funds, refetch, isPending } = useGetAllFunds();
   const { TK } = useGetTaka();
-
+  refetch();
   if (isPending) {
     return <Loading />;
   }

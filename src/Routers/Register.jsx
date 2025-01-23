@@ -289,7 +289,6 @@ const districtUpazilas = {
   Thakurgaon: ["Ranisankail", "Baliadangi", "Pirganj", "Haripur", "Sadar"],
 };
 
-
 const Register = () => {
   const { crateMailPassword, user, setUser, loading, setLoading, dark } =
     useContext(AuthContext);
@@ -396,13 +395,16 @@ const Register = () => {
           const dataToSend = {
             ...formData,
             photoUrl,
-            password: undefined, 
+            password: undefined,
             confirmPassword: undefined,
           };
 
           // Save user data to database
           axios
-            .post("http://localhost:5000/users", dataToSend)
+            .post(
+              "https://blood-donation-server-liard.vercel.app/users",
+              dataToSend
+            )
             .then(() => {
               Swal.fire(
                 "Success!",
@@ -425,7 +427,6 @@ const Register = () => {
       toast.error("Registration failed. Please try again.");
     }
   };
-
 
   return (
     <div className="flex flex-col justify-center items-center min-h-screen">

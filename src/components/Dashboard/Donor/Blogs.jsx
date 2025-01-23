@@ -20,7 +20,9 @@ const Blogs = () => {
     queryKey: ["home-blogs"],
     queryFn: async () => {
       try {
-        const response = await axios.get("http://localhost:5000/blogs/status");
+        const response = await axios.get(
+          "https://blood-donation-server-liard.vercel.app/blogs/status"
+        );
         return response.data;
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -29,12 +31,10 @@ const Blogs = () => {
     },
   });
   refetch();
-  console.log(blogs)
+  console.log(blogs);
   if (isPending) {
     return <Loading />;
   }
-
-  
 
   // Pagination Logic
   const totalItems = blogs?.length || 0; // Handle undefined blogs

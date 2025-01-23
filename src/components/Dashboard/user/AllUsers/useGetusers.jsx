@@ -11,7 +11,7 @@ const useGetusers = () => {
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/users`
+          `https://blood-donation-server-liard.vercel.app/users`
         );
         return response.data;
       } catch (error) {

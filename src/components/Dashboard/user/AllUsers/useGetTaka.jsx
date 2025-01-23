@@ -11,7 +11,7 @@ const useGetTaka = () => {
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/users/add-fund/all/tk`
+          `https://blood-donation-server-liard.vercel.app/users/add-fund/all/tk`
         );
         return response.data;
       } catch (error) {

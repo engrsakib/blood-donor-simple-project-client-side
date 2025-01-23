@@ -5,7 +5,7 @@ import { auth } from "../Firebase/firebase.congig";
 import Swal from "sweetalert2";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://blood-donation-server-liard.vercel.app",
   withCredentials: true,
 });
 

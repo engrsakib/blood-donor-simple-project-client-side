@@ -11,7 +11,7 @@ import { Helmet } from "react-helmet";
 const AllDonationsHome = () => {
   const { user } = useContext(AuthContext);
   const { users } = useGetAllUsers(user);
-  
+
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -24,7 +24,9 @@ const AllDonationsHome = () => {
   } = useQuery({
     queryKey: ["donations"],
     queryFn: async () => {
-      const response = await axios.get(`http://localhost:5000/all-donations`);
+      const response = await axios.get(
+        `https://blood-donation-server-liard.vercel.app/all-donations`
+      );
       return response.data;
     },
   });
@@ -40,7 +42,6 @@ const AllDonationsHome = () => {
     navigate(`/dashboard/donation/detiels/${donation}`);
   };
 
-  
   if (isPending) return <Loading />;
 
   const filteredDonations = statusFilter
@@ -55,9 +56,9 @@ const AllDonationsHome = () => {
 
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>All Donations Request</title>
-    </Helmet>
+      </Helmet>
       <div className="min-h-screen w-full ml-3 p-4 mx-auto rounded-lg shadow-md flex flex-col justify-between">
         <div>
           <h1 className="text-2xl font-bold text-center mb-6">

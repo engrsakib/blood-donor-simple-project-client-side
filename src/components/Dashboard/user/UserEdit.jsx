@@ -292,13 +292,12 @@ const UserEdit = () => {
   const { user, dark, setLoadding } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  
-   const { users, refetch, isPending } = useGetAllUsers(user);
+  const { users, refetch, isPending } = useGetAllUsers(user);
 
-   if (isPending) {
-     <Loading></Loading>;
-   }
-   refetch();
+  if (isPending) {
+    <Loading></Loading>;
+  }
+  refetch();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -334,7 +333,10 @@ const UserEdit = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         axios
-          .put(`http://localhost:5000/users/update/${users.email}`, formData)
+          .put(
+            `https://blood-donation-server-liard.vercel.app/users/update/${users.email}`,
+            formData
+          )
           .then((response) => {
             Swal.fire(
               "Saved!",

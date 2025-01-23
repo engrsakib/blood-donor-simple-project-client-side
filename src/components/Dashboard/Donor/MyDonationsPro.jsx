@@ -22,7 +22,7 @@ const MyDonationsPro = () => {
     queryKey: ["donations", email],
     queryFn: async () => {
       const response = await axios.get(
-        `http://localhost:5000/donations/home/${email}`
+        `https://blood-donation-server-liard.vercel.app/donations/home/${email}`
       );
       return response.data;
     },
@@ -52,9 +52,12 @@ const MyDonationsPro = () => {
     });
 
     if (confirmed.isConfirmed) {
-      await axios.patch(`http://localhost:5000/donations/${id}`, {
-        status: newStatus,
-      });
+      await axios.patch(
+        `https://blood-donation-server-liard.vercel.app/donations/${id}`,
+        {
+          status: newStatus,
+        }
+      );
       refetch();
       Swal.fire("Success!", `Status updated to ${newStatus}.`, "success");
     }
@@ -85,7 +88,9 @@ const MyDonationsPro = () => {
     });
 
     if (confirmed.isConfirmed) {
-      await axios.delete(`http://localhost:5000/donations/${id}`);
+      await axios.delete(
+        `https://blood-donation-server-liard.vercel.app/donations/${id}`
+      );
       refetch();
       Swal.fire("Deleted!", "Donation request has been deleted.", "success");
     }
@@ -103,7 +108,7 @@ const MyDonationsPro = () => {
     currentPage * itemsPerPage
   );
 
-  if(donations.length == 0){
+  if (donations.length == 0) {
     return (
       <>
         <img
@@ -121,7 +126,12 @@ const MyDonationsPro = () => {
         </h1>
 
         <div className="flex flex-row justify-end items-center mb-4 gap-4">
-          <Link to={`/dashboard/my-donation-requests`} className="btn btn-warning">View All</Link>
+          <Link
+            to={`/dashboard/my-donation-requests`}
+            className="btn btn-warning"
+          >
+            View All
+          </Link>
         </div>
 
         <div className="overflow-x-auto">

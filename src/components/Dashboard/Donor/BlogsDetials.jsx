@@ -15,7 +15,7 @@ const BlogsDetails = () => {
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/blogs/details/${id}`
+          `https://blood-donation-server-liard.vercel.app/blogs/details/${id}`
         );
         return response.data;
       } catch (error) {
@@ -33,9 +33,9 @@ const BlogsDetails = () => {
 
   return (
     <>
-    <Helmet>
+      <Helmet>
         <title>{title}</title>
-    </Helmet>
+      </Helmet>
       <div
         className={`min-h-screen ${
           dark ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-800"

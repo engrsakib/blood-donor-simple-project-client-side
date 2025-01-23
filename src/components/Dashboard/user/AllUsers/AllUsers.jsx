@@ -51,7 +51,9 @@ const AllUsers = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/users/${id}`, { method: "DELETE" })
+        fetch(`https://blood-donation-server-liard.vercel.app/users/${id}`, {
+          method: "DELETE",
+        })
           .then((res) => res.json())
           .then(() => {
             Swal.fire("Deleted!", "User has been deleted.", "success");
@@ -76,11 +78,14 @@ const AllUsers = () => {
       showCancelButton: true,
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/users/role/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ role: result.value }),
-        })
+        fetch(
+          `https://blood-donation-server-liard.vercel.app/users/role/${id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ role: result.value }),
+          }
+        )
           .then((res) => res.json())
           .then(() => {
             Swal.fire("Success!", "Role updated successfully.", "success");
@@ -102,11 +107,14 @@ const AllUsers = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         const newStatus = status === "active" ? "blocked" : "active";
-        fetch(`http://localhost:5000/users/status/${id}`, {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ status: newStatus }),
-        })
+        fetch(
+          `https://blood-donation-server-liard.vercel.app/users/status/${id}`,
+          {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ status: newStatus }),
+          }
+        )
           .then((res) => res.json())
           .then(() => {
             Swal.fire(

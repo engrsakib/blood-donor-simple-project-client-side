@@ -20,7 +20,7 @@ const ContentManagement = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const navigate = useNavigate();
-  const {user} = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const { users } = useGetAllUsers(user);
   // useQuery to fetch blogs data
   const {
@@ -31,7 +31,9 @@ const ContentManagement = () => {
     queryKey: ["blogs"],
     queryFn: async () => {
       try {
-        const response = await axios.get("http://localhost:5000/blogs");
+        const response = await axios.get(
+          "https://blood-donation-server-liard.vercel.app/blogs"
+        );
         return response.data;
       } catch (error) {
         console.error("Error fetching blogs:", error);
@@ -63,29 +65,29 @@ const ContentManagement = () => {
 
   // Handle delete blog
   const handleDelete = (id) => {
-    if (users.role != "admin"){
+    if (users.role != "admin") {
       return Swal.fire("Error", "Only admin can do this operations", "error");
     }
-      Swal.fire({
-        title: "Are you sure?",
-        text: "This action will permanently delete the blog.",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "Yes, delete it!",
-      }).then((result) => {
-        if (result.isConfirmed) {
-          axios
-            .delete(`http://localhost:5000/blogs/${id}`)
-            .then(() => {
-              Swal.fire("Deleted!", "Blog has been deleted.", "success");
-              refetch();
-            })
-            .catch((error) => {
-              console.error("Error deleting blog:", error);
-              Swal.fire("Error", "Failed to delete the blog.", "error");
-            });
-        }
-      });
+    Swal.fire({
+      title: "Are you sure?",
+      text: "This action will permanently delete the blog.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .delete(`https://blood-donation-server-liard.vercel.app/blogs/${id}`)
+          .then(() => {
+            Swal.fire("Deleted!", "Blog has been deleted.", "success");
+            refetch();
+          })
+          .catch((error) => {
+            console.error("Error deleting blog:", error);
+            Swal.fire("Error", "Failed to delete the blog.", "error");
+          });
+      }
+    });
   };
 
   // Handle toggle status
@@ -106,7 +108,9 @@ const ContentManagement = () => {
         const newStatus = status === "published" ? "draft" : "published";
 
         axios
-          .patch(`http://localhost:5000/blogs/${id}`, { status: newStatus })
+          .patch(`https://blood-donation-server-liard.vercel.app/blogs/${id}`, {
+            status: newStatus,
+          })
           .then(() => {
             Swal.fire(
               "Success!",

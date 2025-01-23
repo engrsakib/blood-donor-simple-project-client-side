@@ -23,7 +23,7 @@ const CheckOut = ({ TK }) => {
   const navigate = useNavigate();
   const getPaymentIntent = async () => {
     const { data } = await axios.post(
-      "http://localhost:5000/create-payment-intent",
+      "https://blood-donation-server-liard.vercel.app/create-payment-intent",
       {
         amount: TK,
       }
@@ -80,15 +80,18 @@ const CheckOut = ({ TK }) => {
     });
     console.log(paymentIntent.status);
     if (paymentIntent.status === "succeeded") {
-      const response = axios.post("http://localhost:5000/users/add-fund", {
-        email: users?.email,
-        amount: Number(TK),
-        name: users?.name,
-        transaction: paymentIntent?.id,
-        img: users?.photoUrl,
-        date: new Date().toLocaleString(),
-        time: new Date().toLocaleTimeString("en-GB", { hour12: true }),
-      });
+      const response = axios.post(
+        "https://blood-donation-server-liard.vercel.app/users/add-fund",
+        {
+          email: users?.email,
+          amount: Number(TK),
+          name: users?.name,
+          transaction: paymentIntent?.id,
+          img: users?.photoUrl,
+          date: new Date().toLocaleString(),
+          time: new Date().toLocaleTimeString("en-GB", { hour12: true }),
+        }
+      );
       if (response) {
         Swal.fire("Success", "Payment successful", "success");
         navigate("/fundme");

@@ -40,13 +40,11 @@ const AuthProvider = ({ children }) => {
 
   const provider = new GoogleAuthProvider();
 
-  
- 
   // observerd
   useEffect(() => {
     setLoadding(true);
     const subscribe = onAuthStateChanged(auth, (Currentuser) => {
-     setLoadding(true);
+      setLoadding(true);
       setUser(Currentuser);
       // console.log(Currentuser)
       setTimeout(() => {
@@ -55,7 +53,7 @@ const AuthProvider = ({ children }) => {
       // console.log(Currentuser.email);
 
       // if (Currentuser?.email) {
-      //   fetch(`http://localhost:5000/users/${Currentuser?.email}`)
+      //   fetch(`https://blood-donation-server-liard.vercel.app/users/${Currentuser?.email}`)
       //     .then((res) => res.json())
       //     .then((data) => setUser(data));
 
@@ -65,25 +63,26 @@ const AuthProvider = ({ children }) => {
       //   }, 2000);
       // }
 
-
-
-
       if (Currentuser?.email) {
         const userToken = {
           email: Currentuser.email,
         };
 
         axios
-          .post("http://localhost:5000/jwt", userToken, {
-            withCredentials: true,
-          })
+          .post(
+            "https://blood-donation-server-liard.vercel.app/jwt",
+            userToken,
+            {
+              withCredentials: true,
+            }
+          )
           .then((data) => {
             console.log(data.data);
           });
       } else {
         axios
           .post(
-            "http://localhost:5000/logout",
+            "https://blood-donation-server-liard.vercel.app/logout",
             {},
             {
               withCredentials: true,
@@ -105,8 +104,6 @@ const AuthProvider = ({ children }) => {
   }
   // console.log(user);
   // singin popup
-
-  
 
   //Register by email and password
   const crateMailPassword = (mail, password) => {

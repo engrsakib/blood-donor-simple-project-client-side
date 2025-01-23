@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
-
 const useGetAllFunds = () => {
   const {
     isLoading: isPending,
@@ -12,7 +11,7 @@ const useGetAllFunds = () => {
     queryFn: async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5000/users/add-fund/all`
+          `https://blood-donation-server-liard.vercel.app/users/add-fund/all`
         );
         return response.data;
       } catch (error) {

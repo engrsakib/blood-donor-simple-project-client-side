@@ -77,10 +77,10 @@ const CreateBlogs = () => {
       createdAt: new Date().toISOString().split("T")[0],
       status: "draft",
     };
-    
+
     try {
       const response = await axios.post(
-        "http://localhost:5000/blogs",
+        "https://blood-donation-server-liard.vercel.app/blogs",
         blogData
       );
       if (response) {

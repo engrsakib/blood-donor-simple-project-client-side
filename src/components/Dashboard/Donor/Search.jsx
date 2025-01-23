@@ -317,7 +317,7 @@ const Search = () => {
     enabled: !!selectedDistrict || !!selectedBloodGroup,
     queryFn: async () => {
       const response = await axios.post(
-        `http://localhost:5000/all-donations/filter`,
+        `https://blood-donation-server-liard.vercel.app/all-donations/filter`,
         {
           bloodGroup: selectedBloodGroup,
           district: selectedDistrict,
@@ -376,7 +376,7 @@ const Search = () => {
               className="select select-bordered w-40"
               value={selectedUpazila}
               onChange={(e) => setSelectedUpazila(e.target.value)}
-              disabled={!selectedDistrict} 
+              disabled={!selectedDistrict}
             >
               <option value="">Select Upazila</option>
               {selectedDistrict &&
