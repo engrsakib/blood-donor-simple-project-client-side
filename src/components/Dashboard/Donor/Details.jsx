@@ -172,7 +172,7 @@ const Details = () => {
             <label className="block font-medium">Name</label>
             <input
               type="text"
-              value={requesterName}
+              value={users.name}
               readOnly
               className="input input-bordered w-full"
             />
