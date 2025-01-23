@@ -307,7 +307,7 @@ const UserEdit = () => {
     bloodGroup: users.bloodGroup || "",
     district: users.district || "",
     upazila: users.upazila || "",
-    last: users.last || "",
+    email: users.email || "",
   });
 
   const handleChange = (e) => {
@@ -376,6 +376,17 @@ const UserEdit = () => {
               onChange={handleChange}
               className="input input-bordered w-full"
               required
+            />
+          </div>
+          <div>
+            <label className="block text-sm text-gray-500">email</label>
+            <input
+              type="mail"
+              readOnly
+              name="last"
+              value={formData.email}
+              onChange={handleChange}
+              className="input input-bordered w-full"
             />
           </div>
           <div>
@@ -448,16 +459,7 @@ const UserEdit = () => {
                 ))}
             </select>
           </div>
-          <div>
-            <label className="block text-sm text-gray-500">Last Donation</label>
-            <input
-              type="date"
-              name="last"
-              value={formData.last}
-              onChange={handleChange}
-              className="input input-bordered w-full"
-            />
-          </div>
+
           <div className="sm:col-span-2 flex justify-end">
             <button type="submit" className="btn btn-primary">
               Save Changes

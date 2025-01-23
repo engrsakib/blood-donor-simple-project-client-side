@@ -8,7 +8,7 @@ const Privete = ({ children }) => {
   const location = useLocation();
    const { users, refetch, isPending } = useGetAllUsers(user);
     if(isPending){
-      <Loadding></Loadding>
+      return ;
     }
     refetch();
 
@@ -18,7 +18,7 @@ const Privete = ({ children }) => {
     return;
   }
   // console.log(user)
-  if (users) {
+  if (users && users?.email) {
     // console.log("privete")
     return children;
   }

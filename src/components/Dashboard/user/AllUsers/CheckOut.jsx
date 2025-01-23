@@ -12,7 +12,7 @@ import "../../../../common.css";
 import axios from "axios";
 import useGetAllUsers from "./useGetAllUsers";
 import { AuthContext } from "../../../../provider/AuthProvider";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from "react-router-dom";
 
 const CheckOut = ({ TK }) => {
   const stripe = useStripe();
@@ -33,7 +33,7 @@ const CheckOut = ({ TK }) => {
   // console.log(clientSecret);
 
   useEffect(() => {
-    if (TK !== null && TK !== undefined && TK !== "" && TK > 0) {
+    if (TK !== null && TK !== undefined && TK !== "" && TK > 0 && TK < 999999) {
       getPaymentIntent();
     }
   }, [TK]);
@@ -69,32 +69,31 @@ const CheckOut = ({ TK }) => {
       console.log("[PaymentMethod]", paymentMethod);
     }
     // confrem payment
-   const {paymentIntent} = await stripe
-      .confirmCardPayment(clientSecret, {
-        payment_method: {
-          card: card,
-          billing_details: {
-            name: users?.name,
-            email: users?.email,
-          },
+    const { paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: card,
+        billing_details: {
+          name: users?.name,
+          email: users?.email,
         },
-      })
-      console.log(paymentIntent.status);
-      if(paymentIntent.status === "succeeded"){
-       const response = axios.post("http://localhost:5000/users/add-fund", {
-         email: users?.email,
-         amount: Number(TK),
-         name: users?.name,
-         transaction: paymentIntent?.id,
-         img: users?.photoUrl,
-         date: new Date().toLocaleString(),
-         time: new Date().toLocaleTimeString("en-GB", { hour12: true }),
-       });
-        if(response){
-          Swal.fire("Success", "Payment successful", "success");
-          navigate("/fundme");
-        }
+      },
+    });
+    console.log(paymentIntent.status);
+    if (paymentIntent.status === "succeeded") {
+      const response = axios.post("http://localhost:5000/users/add-fund", {
+        email: users?.email,
+        amount: Number(TK),
+        name: users?.name,
+        transaction: paymentIntent?.id,
+        img: users?.photoUrl,
+        date: new Date().toLocaleString(),
+        time: new Date().toLocaleTimeString("en-GB", { hour12: true }),
+      });
+      if (response) {
+        Swal.fire("Success", "Payment successful", "success");
+        navigate("/fundme");
       }
+    }
   };
 
   return (

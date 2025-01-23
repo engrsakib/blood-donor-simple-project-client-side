@@ -38,7 +38,7 @@ const Dashboard = () => {
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${
             isActive ? "btn-active" : ""
-          } ${users.role == "donor" && "hidden"}`
+          } ${users?.role == "donor" && "hidden"}`
         }
       >
         All users
@@ -48,7 +48,7 @@ const Dashboard = () => {
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${
             isActive ? "btn-active" : ""
-          } ${users.role == "donor" && "hidden"}`
+          } ${users?.role == "donor" && "hidden"}`
         }
       >
         All Blood Donation Request
@@ -58,7 +58,7 @@ const Dashboard = () => {
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${
             isActive ? "btn-active" : ""
-          } ${users.role == "donor" && "hidden"}`
+          } ${users?.role == "donor" && "hidden"}`
         }
       >
         Content Management
@@ -76,7 +76,7 @@ const Dashboard = () => {
         className={({ isActive }) =>
           `btn btn-outline btn-accent btn-wide ${
             isActive ? "btn-active" : ""
-          } ${(users.role == "admin" || user.role == "volunteer") && "hidden"}`
+          } ${(users?.role == "admin" || user?.role == "volunteer") && "hidden"}`
         }
       >
         Home
@@ -140,11 +140,11 @@ const Dashboard = () => {
               />
               <h1 className="flex gap-x-1 items-center text-white text-lg">
                 {" "}
-                <FaUserGraduate /> {users.name}
+                <FaUserGraduate /> {users?.name}
               </h1>
               <h1 className="flex gap-x-1 items-center text-white text-sm">
                 {" "}
-                <MdOutlineDriveFileRenameOutline /> {users.role}
+                <MdOutlineDriveFileRenameOutline /> {users?.role}
               </h1>
               <Link
                 to={"/dashboard/profile"}
@@ -166,15 +166,15 @@ const Dashboard = () => {
               {/* user and admin dashboard start */}
               <div>
                 {/* admin Dashboard start*/}
-                {(users.role == "admin" || users.role == "volunteer") && (
+                {(users?.role == "admin" || users?.role == "volunteer") && (
                   <section className="mt-2">
                     {/* icons */}
                     <div className="flex justify-start items-center gap-3 text-white text-xl">
                       <RiAdminFill />{" "}
                       <h4 className="capitalize">
-                        {users.role === "admin"
+                        {users?.role === "admin"
                           ? "admin"
-                          : users.role === "volunteer"
+                          : users?.role === "volunteer"
                           ? "volunteer"
                           : "donor"}
                       </h4>
