@@ -301,6 +301,7 @@ const Search = () => {
   const [selectedBloodGroup, setSelectedBloodGroup] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [searchQuery, setSearchQuery] = useState(false);
 
   const {
     isLoading: isPending,
@@ -335,6 +336,7 @@ const Search = () => {
   };
 
   const handleSearch = () => {
+    setSearchQuery(true);
     setCurrentPage(1);
     if (selectedDistrict || selectedBloodGroup || selectedUpazila) {
       refetch();
