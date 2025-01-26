@@ -12,7 +12,7 @@ const MyDonations = () => {
   const navigate = useNavigate();
   const [statusFilter, setStatusFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10); // Default 10 per page
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const {
     isLoading: isPending,
