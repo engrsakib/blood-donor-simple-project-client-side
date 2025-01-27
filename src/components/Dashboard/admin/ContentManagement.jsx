@@ -11,7 +11,7 @@ import {
 import Loading from "../../Loading";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../../provider/AuthProvider";
 import useGetAllUsers from "../user/AllUsers/useGetAllUsers";
 
@@ -161,6 +161,17 @@ const ContentManagement = () => {
             <option value={10}>10 per page</option>
             <option value={20}>20 per page</option>
           </select>
+
+
+          {/* Create Blog Button */}
+        <div className="flex flex-row justify-end items-center mb-6 gap-4">
+          <Link
+            to={`/dashboard/content-management/add-blog`}
+            className="btn btn-warning"
+          >
+            Create a Blog
+          </Link>
+        </div>
         </div>
 
         {isPending ? (
