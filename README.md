@@ -3,11 +3,11 @@
 A web platform dedicated to managing Blood donations and funtionality. You can post If you neaded blood. You can donate blood.
 
 ## Live Site
-[Visit Sakib BloodBridge](https://sakib-welfare-champine.netlify.app/)
+[Visit Sakib BloodBridge](https://engrsakib-blood-donations-project.netlify.app/)
 
 ## GitHub Repositories
-- **Server Repository:** [server-side-engrsakib](https://github.com/Programming-Hero-Web-Course4/b10a12-client-side-engrsakib)
-- **Client Repository:** [client-side-engrsakib](https://github.com/Programming-Hero-Web-Course4/b10a12-server-side-engrsakib)
+- **Server Repository:** [server-side-engrsakib](https://github.com/engrsakib/blood-donor-simple-project-server)
+- **Client Repository:** [client-side-engrsakib](https://github.com/engrsakib/blood-donor-simple-project-client-side)
 
 ## Features for Your Project  
 
