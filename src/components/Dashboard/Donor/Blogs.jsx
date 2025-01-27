@@ -67,14 +67,14 @@ const Blogs = () => {
         }`}
       >
         {/* Create Blog Button */}
-        <div className="flex flex-row justify-end items-center mb-6 gap-4">
+        {/* <div className="flex flex-row justify-end items-center mb-6 gap-4">
           <Link
             to={`/dashboard/content-management/add-blog`}
             className="btn btn-warning"
           >
             Create a Blog
           </Link>
-        </div>
+        </div> */}
 
         {/* Blog Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">

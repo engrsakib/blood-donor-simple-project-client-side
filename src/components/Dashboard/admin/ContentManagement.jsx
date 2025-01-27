@@ -21,7 +21,7 @@ const ContentManagement = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
-  const { users } = useGetAllUsers(user);
+  const { users, isLoading: isUserLoading } = useGetAllUsers(user);
 
   // useQuery to fetch blogs data
   const {
@@ -66,8 +66,8 @@ const ContentManagement = () => {
 
   // Handle delete blog
   const handleDelete = (id) => {
-    if (users.role !== "admin") {
-      return Swal.fire("Error", "Only admin can do this operations", "error");
+    if (users?.role !== "admin") {
+      return Swal.fire("Error", "Only admin can perform this operation", "error");
     }
     Swal.fire({
       title: "Are you sure?",
@@ -93,8 +93,8 @@ const ContentManagement = () => {
 
   // Handle toggle status
   const handleToggleStatus = (id, status) => {
-    if (users.role !== "admin") {
-      return Swal.fire("Error", "Only admin can do this operations", "error");
+    if (users?.role !== "admin") {
+      return Swal.fire("Error", "Only admin can perform this operation", "error");
     }
     Swal.fire({
       title: "Are you sure?",
@@ -132,6 +132,8 @@ const ContentManagement = () => {
     navigate(`/blogs/details/${id}`);
   };
 
+  if (isPending || isUserLoading) return <Loading />;
+
   return (
     <>
       <Helmet>
@@ -163,90 +165,88 @@ const ContentManagement = () => {
           </div>
         </div>
 
-        {isPending ? (
-          <Loading />
-        ) : (
-          <div className="overflow-x-auto min-h-screen border rounded-lg shadow-md bg-white">
-            <table className="table-auto w-full border-collapse text-left">
-              <thead>
-                <tr className="bg-gray-100 border-b">
-                  <th className="py-4 px-6 font-medium text-gray-600">#</th>
-                  <th className="py-4 px-6 font-medium text-gray-600">Title</th>
-                  <th className="py-4 px-6 font-medium text-gray-600">Author</th>
-                  <th className="py-4 px-6 font-medium text-gray-600">
-                    Created Date
-                  </th>
-                  <th className="py-4 px-6 font-medium text-gray-600">Status</th>
-                  <th className="py-4 px-6 font-medium text-gray-600">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {paginatedBlogs.map((blog, index) => (
-                  <tr
-                    key={blog._id}
-                    className={`border-b ${
-                      index % 2 === 0 ? "bg-gray-50" : "bg-white"
-                    } hover:bg-gray-100`}
-                  >
-                    <td className="py-4 px-6 text-gray-700">{index + 1}</td>
-                    <td className="py-4 px-6 text-gray-700">{blog.title}</td>
-                    <td className="py-4 px-6 text-gray-700">{blog.author}</td>
-                    <td className="py-4 px-6 text-gray-700">{blog.createdAt}</td>
-                    <td className="py-4 px-6">
-                      <span
-                        className={`px-3 py-1 rounded-full text-sm font-medium ${
-                          blog.status === "published"
-                            ? "bg-green-100 text-green-600"
-                            : "bg-red-100 text-red-600"
-                        }`}
+        <div className="overflow-x-auto min-h-screen border rounded-lg shadow-md bg-white">
+          <table className="table-auto w-full border-collapse text-left">
+            <thead>
+              <tr className="bg-gray-100 border-b">
+                <th className="py-4 px-6 font-medium text-gray-600">#</th>
+                <th className="py-4 px-6 font-medium text-gray-600">Title</th>
+                <th className="py-4 px-6 font-medium text-gray-600">Author</th>
+                <th className="py-4 px-6 font-medium text-gray-600">
+                  Created Date
+                </th>
+                <th className="py-4 px-6 font-medium text-gray-600">Status</th>
+                <th className="py-4 px-6 font-medium text-gray-600">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paginatedBlogs.map((blog, index) => (
+                <tr
+                  key={blog._id}
+                  className={`border-b ${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-gray-100`}
+                >
+                  <td className="py-4 px-6 text-gray-700">{index + 1}</td>
+                  <td className="py-4 px-6 text-gray-700">{blog.title}</td>
+                  <td className="py-4 px-6 text-gray-700">{blog.author}</td>
+                  <td className="py-4 px-6 text-gray-700">{blog.createdAt}</td>
+                  <td className="py-4 px-6">
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${
+                        blog.status === "published"
+                          ? "bg-green-100 text-green-600"
+                          : "bg-red-100 text-red-600"
+                      }`}
+                    >
+                      {blog.status}
+                    </span>
+                  </td>
+                  <td className="py-4 px-6">
+                    <div className="flex items-center space-x-4">
+                      <button
+                        onClick={() => handleDetails(blog._id)}
+                        className="flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded shadow hover:bg-blue-600"
                       >
-                        {blog.status}
-                      </span>
-                    </td>
-                    <td className="py-4 px-6">
-                      <div className="flex items-center space-x-4">
-                        <button
-                          onClick={() => handleDetails(blog._id)}
-                          className="flex items-center px-3 py-2 bg-blue-500 text-white text-sm font-medium rounded shadow hover:bg-blue-600"
-                        >
-                          <FaUserEdit className="mr-2" /> Details
-                        </button>
-                        <button
-                          onClick={() =>
-                            handleToggleStatus(blog._id, blog.status)
-                          }
-                          className={`flex items-center px-3 py-2 text-sm font-medium rounded shadow ${
-                            blog.status === "published"
-                              ? "bg-yellow-500 text-white hover:bg-yellow-600"
-                              : "bg-green-500 text-white hover:bg-green-600"
-                          }`}
-                        >
-                          {blog.status === "published" ? (
-                            <>
-                              <FaUserLock className="mr-2" /> Draft
-                            </>
-                          ) : (
-                            <>
-                              <FaUserCheck className="mr-2" /> Publish
-                            </>
-                          )}
-                        </button>
-                        <button
-                          onClick={() => handleDelete(blog._id)}
-                          className="flex items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded shadow hover:bg-red-600"
-                        >
-                          <FaTrash className="mr-2" /> Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        )}
+                        <FaUserEdit className="mr-2" /> Details
+                      </button>
+                      {users?.role === "admin" && (
+                        <>
+                          <button
+                            onClick={() =>
+                              handleToggleStatus(blog._id, blog.status)
+                            }
+                            className={`flex items-center px-3 py-2 text-sm font-medium rounded shadow ${
+                              blog.status === "published"
+                                ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                                : "bg-green-500 text-white hover:bg-green-600"
+                            }`}
+                          >
+                            {blog.status === "published" ? (
+                              <>
+                                <FaUserLock className="mr-2" /> Draft
+                              </>
+                            ) : (
+                              <>
+                                <FaUserCheck className="mr-2" /> Publish
+                              </>
+                            )}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(blog._id)}
+                            className="flex items-center px-3 py-2 bg-red-500 text-white text-sm font-medium rounded shadow hover:bg-red-600"
+                          >
+                            <FaTrash className="mr-2" /> Delete
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
 
         {/* Pagination and Items per page */}
         <div className="mt-4 flex flex-col md:flex-row justify-between items-center">
