@@ -22,10 +22,11 @@ const ContentManagement = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const { users } = useGetAllUsers(user);
+
   // useQuery to fetch blogs data
   const {
     isLoading: isPending,
-    data: blogs = [], // Default empty array
+    data: blogs = [],
     refetch,
   } = useQuery({
     queryKey: ["blogs"],
@@ -60,12 +61,12 @@ const ContentManagement = () => {
   const handlePageChange = (page) => setCurrentPage(page);
   const handleItemsPerPageChange = (e) => {
     setItemsPerPage(Number(e.target.value));
-    setCurrentPage(1); // Reset to first page on items per page change
+    setCurrentPage(1);
   };
 
   // Handle delete blog
   const handleDelete = (id) => {
-    if (users.role != "admin") {
+    if (users.role !== "admin") {
       return Swal.fire("Error", "Only admin can do this operations", "error");
     }
     Swal.fire({
@@ -92,7 +93,7 @@ const ContentManagement = () => {
 
   // Handle toggle status
   const handleToggleStatus = (id, status) => {
-    if (users.role != "admin") {
+    if (users.role !== "admin") {
       return Swal.fire("Error", "Only admin can do this operations", "error");
     }
     Swal.fire({
@@ -151,47 +152,31 @@ const ContentManagement = () => {
             <option value="draft">Draft</option>
           </select>
 
-          {/* Items per page */}
-          <select
-            value={itemsPerPage}
-            onChange={handleItemsPerPageChange}
-            className="select select-bordered w-full md:w-auto"
-          >
-            <option value={5}>5 per page</option>
-            <option value={10}>10 per page</option>
-            <option value={20}>20 per page</option>
-          </select>
-
-
           {/* Create Blog Button */}
-        <div className="flex flex-row justify-end items-center mb-6 gap-4">
-          <Link
-            to={`/dashboard/content-management/add-blog`}
-            className="btn btn-warning"
-          >
-            Create a Blog
-          </Link>
-        </div>
+          <div className="flex flex-row justify-end items-center gap-4">
+            <Link
+              to={`/dashboard/content-management/add-blog`}
+              className="btn btn-warning"
+            >
+              Create a Blog
+            </Link>
+          </div>
         </div>
 
         {isPending ? (
           <Loading />
         ) : (
-          <div className="overflow-x-auto min-h-screen border overflow-y-hidden rounded-lg shadow-md bg-white">
+          <div className="overflow-x-auto min-h-screen border rounded-lg shadow-md bg-white">
             <table className="table-auto w-full border-collapse text-left">
               <thead>
                 <tr className="bg-gray-100 border-b">
                   <th className="py-4 px-6 font-medium text-gray-600">#</th>
                   <th className="py-4 px-6 font-medium text-gray-600">Title</th>
-                  <th className="py-4 px-6 font-medium text-gray-600">
-                    Author
-                  </th>
+                  <th className="py-4 px-6 font-medium text-gray-600">Author</th>
                   <th className="py-4 px-6 font-medium text-gray-600">
                     Created Date
                   </th>
-                  <th className="py-4 px-6 font-medium text-gray-600">
-                    Status
-                  </th>
+                  <th className="py-4 px-6 font-medium text-gray-600">Status</th>
                   <th className="py-4 px-6 font-medium text-gray-600">
                     Actions
                   </th>
@@ -208,9 +193,7 @@ const ContentManagement = () => {
                     <td className="py-4 px-6 text-gray-700">{index + 1}</td>
                     <td className="py-4 px-6 text-gray-700">{blog.title}</td>
                     <td className="py-4 px-6 text-gray-700">{blog.author}</td>
-                    <td className="py-4 px-6 text-gray-700">
-                      {blog.createdAt}
-                    </td>
+                    <td className="py-4 px-6 text-gray-700">{blog.createdAt}</td>
                     <td className="py-4 px-6">
                       <span
                         className={`px-3 py-1 rounded-full text-sm font-medium ${
@@ -265,19 +248,35 @@ const ContentManagement = () => {
           </div>
         )}
 
-        {/* Pagination Controls */}
-        <div className="mt-4 flex justify-center">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index}
-              onClick={() => handlePageChange(index + 1)}
-              className={`btn btn-sm mx-1 ${
-                currentPage === index + 1 ? "btn-primary" : "btn-ghost"
-              }`}
+        {/* Pagination and Items per page */}
+        <div className="mt-4 flex flex-col md:flex-row justify-between items-center">
+          {/* Pagination Controls */}
+          <div className="flex justify-center">
+            {Array.from({ length: totalPages }, (_, index) => (
+              <button
+                key={index}
+                onClick={() => handlePageChange(index + 1)}
+                className={`btn btn-sm mx-1 ${
+                  currentPage === index + 1 ? "btn-primary" : "btn-ghost"
+                }`}
+              >
+                {index + 1}
+              </button>
+            ))}
+          </div>
+
+          {/* Items per page */}
+          <div className="flex justify-center mt-4 md:mt-0">
+            <select
+              value={itemsPerPage}
+              onChange={handleItemsPerPageChange}
+              className="select select-bordered w-auto"
             >
-              {index + 1}
-            </button>
-          ))}
+              <option value={5}>5 per page</option>
+              <option value={10}>10 per page</option>
+              <option value={20}>20 per page</option>
+            </select>
+          </div>
         </div>
       </div>
     </>
