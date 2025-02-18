@@ -2,8 +2,8 @@
 
 A web platform dedicated to managing Blood donations and functionality. You can post if you need blood or wish to donate. BloodBridge seamlessly connects donors, recipients, and volunteers.  
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/BlnfVZZfuL4?si=cf9hV9_J0WN-e0BY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>  
-
+[![Watch the video](https://img.youtube.com/vi/BlnfVZZfuL4/maxresdefault.jpg)](https://www.youtube.com/watch?v=BlnfVZZfuL4)
+  
 ---
 
 ## 🔗 Live Site  
