@@ -315,7 +315,7 @@ const Search = () => {
       selectedBloodGroup,
       currentPage,
     ],
-    enabled: !!selectedDistrict || !!selectedBloodGroup,
+    
     queryFn: async () => {
       const response = await axios.post(
         `https://blood-donation-server-liard.vercel.app/all-donations/filter`,
