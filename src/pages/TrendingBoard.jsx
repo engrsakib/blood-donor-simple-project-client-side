@@ -16,14 +16,14 @@ const TrendingBoard = () => {
 
   return (
     <div className={dark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}>
-      <h2 className="text-3xl font-bold text-center py-6">Photo Gallery</h2>
+      <h2 className="text-3xl font-bold text-center py-6">Trending Photos</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4 auto-rows-fr">
         {trends.map((trend, index) => (
           <div 
             key={index} 
             className={`card shadow-xl hover:scale-105 transition-transform overflow-hidden rounded-2xl ${index % 5 === 0 ? 'row-span-2 col-span-2' : (index % 3 === 0 ? 'col-span-2' : 'col-span-1')}`}
           >
-            <figure className="relative group">
+            <figure className="relative group w-full h-full overflow-hidden rounded-xl object-cover">
               <img src={trend.img} alt={trend.title} className="w-full h-full object-cover rounded-xl transition-all duration-300 group-hover:opacity-75" />
               <div className="absolute inset-0 bg-white bg-opacity-90 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                 <h3 className="text-xl font-bold text-gray-800">{trend.title}</h3>
