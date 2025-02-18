@@ -56,9 +56,9 @@ const router = createBrowserRouter([
       {
         path: "/fundme",
         element: (
-          <Privete>
+          
             <Foundme></Foundme>
-          </Privete>
+        
         ),
       },
       {
@@ -173,7 +173,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-      path: "/dashboard/fundme/add-fund",
+        path: "/dashboard/fundme/add-fund",
         element: (
           <Privete>
             <AddFund></AddFund>
