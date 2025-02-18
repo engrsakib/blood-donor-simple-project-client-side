@@ -6,9 +6,8 @@ import Swal from "sweetalert2";
 import Google from "../components/Google";
 
 const LogIn = () => {
-  const { dark, logInMail, setUser, user} = useContext(AuthContext);
+  const { dark, logInMail, setUser, user } = useContext(AuthContext);
   const location = useLocation();
-  // console.log(location.state)
   const [formData, setFormData] = useState({
     mail: "",
     password: "",
@@ -27,21 +26,38 @@ const LogIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // console.log("Form Data:", formData);
     logInMail(formData.mail, formData.password)
       .then((userCredential) => {
-        // Signed in
         const user = userCredential.user;
         setUser(user);
         Swal.fire("LogIn successed", "", "success");
-        navigate(location.state ? location.state : '/');
-        // ...
+        navigate(location.state ? location.state : "/");
       })
       .catch((error) => {
-       
         Swal.fire("Mail or password is wrong", "", "info");
-
       });
+  };
+
+  // Auto-fill Functions for Admin, User, Volunteer
+  const handleAutoFill = (role) => {
+    let credentials = {};
+    if (role === "admin") {
+      credentials = {
+        mail: "admin@example.com",
+        password: "admin123",
+      };
+    } else if (role === "user") {
+      credentials = {
+        mail: "user@example.com",
+        password: "user123",
+      };
+    } else if (role === "volunteer") {
+      credentials = {
+        mail: "volunteer@example.com",
+        password: "volunteer123",
+      };
+    }
+    setFormData(credentials);
   };
 
   return (
@@ -50,10 +66,8 @@ const LogIn = () => {
         <div
           className={`relative ${
             dark ? "border border-yellow-300" : "bg-white"
-          } p-8 rounded-lg shadow-md  max-w-md w-full`}
+          } p-8 rounded-lg shadow-md max-w-md w-full`}
         >
-          {/* Lock Icon */}
-          <div className="absolute -top-16 left-1/2 transform -translate-x-1/2"></div>
           <h2
             className={`text-center text-xl font-bold mb-6 ${
               dark ? "text-gray-200" : "text-gray-800"
@@ -62,7 +76,7 @@ const LogIn = () => {
             USER LOGIN
           </h2>
           <form onSubmit={handleSubmit}>
-            {/* mail Field */}
+            {/* Mail Field */}
             <div className="mb-4">
               <input
                 type="text"
@@ -129,8 +143,28 @@ const LogIn = () => {
               </Link>
             </p>
           </div>
-          
-            {/* <Google></Google> */}
+          {/* Role Selection Buttons */}
+          <div className="join mt-4">
+            <button
+              className="btn join-item btn-info"
+              onClick={() => handleAutoFill("admin")}
+            >
+              Admin
+            </button>
+            <button
+              className="btn join-item"
+              onClick={() => handleAutoFill("user")}
+            >
+              User
+            </button>
+            <button
+              className="btn join-item btn-info"
+              onClick={() => handleAutoFill("volunteer")}
+            >
+              Volunteer
+            </button>
+          </div>
+          {/* <Google></Google> */}
         </div>
       </div>
     </>
