@@ -5,9 +5,10 @@ import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "../../Loading";
 import { AuthContext } from "../../../provider/AuthProvider";
+import parse from "html-react-parser";
 
 const Blogs = () => {
-  const { dark } = useContext(AuthContext);
+  const { dark, user } = useContext(AuthContext);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const navigate = useNavigate();
@@ -105,17 +106,28 @@ const Blogs = () => {
                 </div> */}
               </div>
               <div className="p-6">
-                <h2 className="font-bold text-xl mb-3">{blog?.title}</h2>
-                <p className="text-sm text-gray-600 mb-2">
-                  Author: <span className="font-semibold">{blog?.author}</span>
-                </p>
-                <p className="text-sm text-gray-600">
-                  Created On:{" "}
-                  <span className="font-semibold">
-                    {blog?.createdAt
-                      ? new Date(blog.createdAt).toLocaleDateString()
-                      : "N/A"}
-                  </span>
+                <h2 className="font-bold text-xl mb-3">
+                  {blog?.title?.split(" ").slice(0, 8).join(" ")}
+                </h2>
+
+                <div className="flex flex-row justify-between gap-2">
+                  <p className="text-sm text-gray-600 mb-2">
+                    {" "}
+                    <span className="font-semibold">{blog?.author}</span>
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    {" "}
+                    <span className="font-semibold">
+                      {blog?.createdAt
+                        ? new Date(blog.createdAt).toLocaleDateString()
+                        : "N/A"}
+                    </span>
+                  </p>
+                </div>
+                <p className="text-justify">
+                  {parse(
+                    blog?.content?.split(" ").slice(0, 20).join(" ") + " ......"
+                  )}
                 </p>
               </div>
               <div className="bg-transparent mb-3 inset-0 flex items-center justify-center  bg-opacity-50 transition duration-300">
@@ -123,7 +135,7 @@ const Blogs = () => {
                   onClick={() => {
                     GoDetails(blog?._id);
                   }}
-                  className="btn btn-info btn-outline btn-link btn-neutral text-white"
+                  className={`${!user && "hidden"} btn btn-info btn-outline btn-link btn-neutral text-white`}
                 >
                   read more
                 </button>
