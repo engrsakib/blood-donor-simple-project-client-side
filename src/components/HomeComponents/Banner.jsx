@@ -7,7 +7,7 @@ const Banner = () => {
     return (
       <>
         <div
-          className="hero w-full min-h-60 rounded-md"
+          className="hero w-full h-2/3 rounded-md"
           style={{
             backgroundImage:
               "url(https://cdn.ittefaqbd.com/contents/cache/images/640x358x1/uploads/media/2024/06/14/eb5663459d5f5e1ad9c4fa7e0e172d2a-666c4ac8bf1e7.jpg?jadewits_media_id=173188)",
