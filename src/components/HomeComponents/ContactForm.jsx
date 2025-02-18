@@ -49,7 +49,7 @@ const ContactForm = () => {
   return (
     <div
       className={`py-10 px-5 lg:px-20 ${
-        dark ? "bg-gray-900 text-gray-100" : "bg-gray-100 text-gray-900"
+        dark ? " text-gray-100" : "bg-gray-100 text-gray-900"
       }`}
     >
       <div className="container mx-auto">
