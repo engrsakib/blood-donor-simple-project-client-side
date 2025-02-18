@@ -8,7 +8,7 @@ const AboutUs = () => {
   return (
     <div
       className={`${
-        dark ? "bg-gray-900 text-gray-200" : "bg-white text-gray-900"
+        dark ? " text-gray-200" : "bg-white text-gray-900"
       }`}
     >
       {/* About Section */}
