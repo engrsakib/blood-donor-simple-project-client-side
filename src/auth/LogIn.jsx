@@ -49,7 +49,7 @@ const LogIn = () => {
     } else if (role === "user") {
       credentials = {
         mail: "user@example.com",
-        password: "user123",
+        password: "@Iuser123",
       };
     } else if (role === "volunteer") {
       credentials = {
@@ -155,7 +155,7 @@ const LogIn = () => {
               className="btn join-item"
               onClick={() => handleAutoFill("user")}
             >
-              User
+              Donor
             </button>
             <button
               className="btn join-item btn-info"
