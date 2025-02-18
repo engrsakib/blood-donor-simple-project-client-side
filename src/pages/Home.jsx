@@ -6,6 +6,7 @@ import AboutUs from '../components/HomeComponents/AboutUs';
 import ContactForm from '../components/HomeComponents/ContactForm';
 import PhotoGallery from './PhotoGallery';
 import TrendingBoard from './TrendingBoard';
+import FAQ from './FAQ';
 
 const Home = () => {
   const{user, loadding, dark} = useContext(AuthContext);
@@ -29,6 +30,9 @@ const Home = () => {
           <TrendingBoard></TrendingBoard>
         </section>
         {/* contactus */}
+        <section>
+          <FAQ></FAQ>
+        </section>
         <section>
           <ContactForm></ContactForm>
         </section>
