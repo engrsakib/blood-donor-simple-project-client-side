@@ -55,7 +55,7 @@ const ContactForm = () => {
       <div className="container mx-auto">
         <div className="flex flex-col lg:flex-row gap-10">
           {/* Form Section */}
-          <div className="flex-1 bg-white shadow-lg rounded-lg p-6 lg:p-10">
+          <div className="flex-1 shadow-lg rounded-lg p-6 lg:p-10">
             <h2
               className={`text-2xl font-bold mb-4 ${
                 dark ? "text-gray-100" : "text-gray-900"
@@ -74,6 +74,7 @@ const ContactForm = () => {
                   className={`input input-bordered w-full ${
                     dark ? "bg-gray-800 text-gray-100" : "bg-gray-200"
                   }`}
+                  required
                 />
                 <input
                   type="text"
@@ -84,6 +85,7 @@ const ContactForm = () => {
                   className={`input input-bordered w-full ${
                     dark ? "bg-gray-800 text-gray-100" : "bg-gray-200"
                   }`}
+                  required
                 />
               </div>
               <input
@@ -105,6 +107,7 @@ const ContactForm = () => {
                 className={`textarea textarea-bordered w-full ${
                   dark ? "bg-gray-800 text-gray-100" : "bg-gray-200"
                 }`}
+                required
               />
               <button
                 type="submit"
