@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { AuthContext } from '../../provider/AuthProvider';
 
 const Banner = () => {
+  const { user, dark, setLoadding } = useContext(AuthContext);
     return (
       <>
         <div
-          className="hero min-h-screen rounded-md"
+          className="hero w-full min-h-60 rounded-md"
           style={{
             backgroundImage:
               "url(https://cdn.ittefaqbd.com/contents/cache/images/640x358x1/uploads/media/2024/06/14/eb5663459d5f5e1ad9c4fa7e0e172d2a-666c4ac8bf1e7.jpg?jadewits_media_id=173188)",
@@ -26,7 +28,7 @@ const Banner = () => {
                 today—donate blood and give the gift of life.
               </p>
               <div className="space-x-3">
-                <Link to={`/auth/register`} className="btn btn-primary">
+                <Link to={`/auth/register`} className={`btn btn-primary ${user && "hidden"}`}>
                   Join as a donor
                 </Link>
                 <Link to={"/searchdonor"} className="btn btn-secondary">

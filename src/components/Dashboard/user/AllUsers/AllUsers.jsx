@@ -135,7 +135,7 @@ const AllUsers = () => {
         <title>All Users</title>
       </Helmet>
 
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-6 ">
         <h1 className="text-2xl font-bold mb-6">User Management</h1>
 
         {/* Filters */}
@@ -171,7 +171,7 @@ const AllUsers = () => {
                 <th className="py-3 px-6">Actions</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody >
               {paginatedUsers.map((user, index) => (
                 <tr
                   key={user._id}

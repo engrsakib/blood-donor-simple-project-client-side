@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useNavigate } from "react-router-dom";
 import useGetAllFunds from "./useGetAllFunds";
 import Loading from "../../../Loading";
 import useGetTaka from "./useGetTaka";
+import { AuthContext } from "../../../../provider/AuthProvider";
 
 const Foundme = () => {
   const navigate = useNavigate();
@@ -11,6 +12,7 @@ const Foundme = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const { funds, refetch, isPending } = useGetAllFunds();
   const { TK } = useGetTaka();
+  const { user, dark, setLoadding } = useContext(AuthContext);
   refetch();
   if (isPending) {
     return <Loading />;
@@ -44,7 +46,7 @@ const Foundme = () => {
             onClick={() => {
               navigate(`/dashboard/fundme/add-fund`);
             }}
-            className="btn btn-outline btn-wide btn-info"
+            className={`btn btn-outline btn-wide btn-info ${!user && "hidden"}`}
           >
             Add Fund
           </button>

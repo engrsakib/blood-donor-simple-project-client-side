@@ -12,7 +12,7 @@ const Home = () => {
     return (
       <>
         {/* banner section */}
-        <section>
+        <section className=''>
           <Banner></Banner>
         </section>
         {/* about us section */}
