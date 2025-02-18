@@ -44,7 +44,7 @@ const LogIn = () => {
     if (role === "admin") {
       credentials = {
         mail: "admin@example.com",
-        password: "admin123",
+        password: "aQadmin123@",
       };
     } else if (role === "user") {
       credentials = {
