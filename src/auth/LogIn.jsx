@@ -54,7 +54,7 @@ const LogIn = () => {
     } else if (role === "volunteer") {
       credentials = {
         mail: "volunteer@example.com",
-        password: "volunteer123",
+        password: "@Pvolunteer123",
       };
     }
     setFormData(credentials);
