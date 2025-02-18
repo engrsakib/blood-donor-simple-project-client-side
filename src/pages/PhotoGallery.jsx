@@ -15,7 +15,7 @@ const PhotoGallery = () => {
   const { dark } = useContext(AuthContext);
 
   return (
-    <div className={dark ? 'bg-gray-900 text-white' : 'bg-white text-gray-900'}>
+    <div className={dark ? ' text-white' : 'bg-white text-gray-900'}>
       <h2 className="text-3xl font-bold text-center py-6">Photo Gallery</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-4">
         {photos.map((photo, index) => (
