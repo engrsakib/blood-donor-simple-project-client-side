@@ -61,7 +61,7 @@ const ContactForm = () => {
                 dark ? "text-gray-100" : "text-gray-900"
               }`}
             >
-              Registration
+              Contact with us
             </h2>
             <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
