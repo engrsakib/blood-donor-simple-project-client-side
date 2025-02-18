@@ -4,9 +4,10 @@ import { AuthContext } from '../provider/AuthProvider';
 import Banner from '../components/HomeComponents/Banner';
 import AboutUs from '../components/HomeComponents/AboutUs';
 import ContactForm from '../components/HomeComponents/ContactForm';
+import PhotoGallery from './PhotoGallery';
 
 const Home = () => {
-  const{user, loadding} = useContext(AuthContext)
+  const{user, loadding, dark} = useContext(AuthContext);
   
 
     return (
@@ -19,7 +20,10 @@ const Home = () => {
         <section>
           <AboutUs></AboutUs>
         </section>
-
+        {/* photo */}
+        <section>
+          <PhotoGallery></PhotoGallery>
+        </section>
         {/* contactus */}
         <section>
           <ContactForm></ContactForm>
