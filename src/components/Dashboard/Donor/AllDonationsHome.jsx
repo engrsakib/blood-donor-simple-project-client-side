@@ -102,8 +102,9 @@ const AllDonationsHome = () => {
                     <td>{donation?.district}</td>
                     <td className="flex flex-wrap gap-2">
                       <button
-                        className="btn btn-sm btn-primary"
+                        className={`btn btn-sm btn-primary ${!user && "hidden"}`}
                         onClick={() => handleDetailsClick(donation._id)}
+                        
                       >
                         Details
                       </button>
