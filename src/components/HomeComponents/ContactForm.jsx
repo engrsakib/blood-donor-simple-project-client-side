@@ -1,9 +1,50 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../../provider/AuthProvider";
-
+import Swal from "sweetalert2";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ContactForm = () => {
   const { dark } = useContext(AuthContext);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Here you can handle your form submission logic like sending data to an API
+    // After submission, show success alert and reset the form
+
+    Swal.fire({
+      title: 'Success!',
+      text: 'Message sent successfully!',
+      icon: 'success',
+      confirmButtonText: 'Okay'
+    });
+
+    // Show toast notification
+    toast.success("Message sent successfully!");
+
+    // Reset the form
+    setFormData({
+      name: "",
+      phone: "",
+      email: "",
+      message: "",
+    });
+  };
 
   return (
     <div
@@ -22,10 +63,13 @@ const ContactForm = () => {
             >
               Registration
             </h2>
-            <form className="space-y-4">
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <input
                   type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="Your Name"
                   className={`input input-bordered w-full ${
                     dark ? "bg-gray-800 text-gray-100" : "bg-gray-200"
@@ -33,6 +77,9 @@ const ContactForm = () => {
                 />
                 <input
                   type="text"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
                   placeholder="Phone Number"
                   className={`input input-bordered w-full ${
                     dark ? "bg-gray-800 text-gray-100" : "bg-gray-200"
@@ -41,24 +88,30 @@ const ContactForm = () => {
               </div>
               <input
                 type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
                 placeholder="Your Email"
                 className={`input input-bordered w-full ${
                   dark ? "bg-gray-800 text-gray-100" : "bg-gray-200"
                 }`}
+                required
               />
-
               <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
                 placeholder="Your Message"
                 className={`textarea textarea-bordered w-full ${
                   dark ? "bg-gray-800 text-gray-100" : "bg-gray-200"
                 }`}
               />
-              <div
+              <button
                 type="submit"
                 className="btn btn-primary bg-red-500 hover:bg-red-600 text-white w-full"
               >
-                send me
-              </div>
+                Send Me
+              </button>
             </form>
           </div>
 
@@ -88,7 +141,7 @@ const ContactForm = () => {
                 </div>
                 <div>
                   <h3 className="font-bold">Magura</h3>
-                  <p>adorshopara, collage gate, magura</p>
+                  <p>adorshopara, college gate, magura</p>
                   <p>Phone: (+880) 152 254 238</p>
                   <p>Email: contact@bloodbridge.com</p>
                 </div>
@@ -97,6 +150,7 @@ const ContactForm = () => {
           </div>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };
